@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/premises-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="11.3.0.4">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="hcs-base.xsd"/>
+	<!--Здания и помещения-->
+	<xs:simpleType name="FIASHouseGUIDType">
+		<xs:annotation>
+			<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="base:GUIDType"/>
+	</xs:simpleType>
+	<xs:simpleType name="HouseUniqueNumberType">
+		<xs:annotation>
+			<xs:documentation>Тип уникального номера дома</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{25}-[0-9]{5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PremisesUniqueNumberType">
+		<xs:annotation>
+			<xs:documentation>Тип уникального номера помещения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{25}-[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RoomUniqueNumberType">
+		<xs:annotation>
+			<xs:documentation>Тип уникального номера комнаты</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{25}-[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LivingAreaType">
+		<xs:annotation>
+			<xs:documentation>Площадь жилого помещения (7 до запятой, 2 после)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="2"/>
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999999.99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AreaType">
+		<xs:annotation>
+			<xs:documentation>Площадь территории/здания</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="2"/>
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="99999999.99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PremisesAreaType">
+		<xs:annotation>
+			<xs:documentation>Площадь помещения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="4"/>
+			<xs:minInclusive value="0"/>
+			<xs:totalDigits value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PremisesAreaExportType">
+		<xs:annotation>
+			<xs:documentation>Площадь помещения (для экспорта данных)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="4"/>
+			<xs:totalDigits value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

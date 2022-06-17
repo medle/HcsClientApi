@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/nsi-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="11.2.1.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="hcs-base.xsd"/>
+	<!--НСИ-->
+	<xs:simpleType name="nsiCodeType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+			<xs:pattern value="(A{0,1}\d{1,4}(\.)?)+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="nsiRef">
+		<xs:annotation>
+			<xs:documentation>Ссылка на справочник</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Code" type="tns:nsiCodeType">
+				<xs:annotation>
+					<xs:documentation>Код записи справочника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор записи в соответствующем справочнике ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Значение</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="base:LongTextType">
+						<xs:maxLength value="1200"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="NsiItemNameType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Наименование справочника. Строка не более 200 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2500"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NsiItemRegistryNumberType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Реестровый номер справочника. Код не более 10 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger">
+			<xs:totalDigits value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="NsiItemInfoType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование, дата и время последнего изменения справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RegistryNumber" type="tns:NsiItemRegistryNumberType">
+				<xs:annotation>
+					<xs:documentation>Реестровый номер справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="tns:NsiItemNameType">
+				<xs:annotation>
+					<xs:documentation>Наименование справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Modified" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время последнего изменения справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NsiListType">
+		<xs:annotation>
+			<xs:documentation>Перечень справочников с датой последнего изменения каждого из них.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Created" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время формирования перечня справочников.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NsiItemInfo" type="tns:NsiItemInfoType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Наименование, дата и время последнего изменения справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns:ListGroup"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NsiItemType">
+		<xs:annotation>
+			<xs:documentation>Данные справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NsiItemRegistryNumber" type="tns:NsiItemRegistryNumberType">
+				<xs:annotation>
+					<xs:documentation>Реестровый номер справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Created" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время формирования данных справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NsiElement" type="tns:NsiElementType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Элемент справочника верхнего уровня.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NsiElementType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Элемент справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Code" type="tns:nsiCodeType">
+				<xs:annotation>
+					<xs:documentation>Код элемента справочника, уникальный в пределах справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Глобально-уникальный идентификатор элемента справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="Modified" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>Дата и время последнего изменения элемента справочника (в том числе создания).</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:sequence>
+					<xs:element name="StartDate" type="xs:dateTime">
+						<xs:annotation>
+							<xs:documentation>Дата начала действия значения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EndDate" type="xs:dateTime">
+						<xs:annotation>
+							<xs:documentation>Дата окончания действия значения</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+			<xs:element name="IsActual" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Признак актуальности элемента справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NsiElementField" type="tns:NsiElementFieldType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Наименование и значение поля для элемента справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ChildElement" type="tns:NsiElementType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Дочерний элемент.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NsiElementFieldType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля для элемента справочника. Абстрактный тип.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="tns:FieldNameType">
+				<xs:annotation>
+					<xs:documentation>Наименование поля элемента справочника.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NsiElementStringFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Строка" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Value" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Значение поля элемента справочника типа "Строка".</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementBooleanFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Да/Нет" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Value" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Значение поля элемента справочника типа "Да/Нет".</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementFloatFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Вещественное" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Value" type="xs:float" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Значение поля элемента справочника типа "Вещественное".</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementDateFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Дата" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Value" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Значение поля элемента справочника типа "Дата".</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementIntegerFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Целое число" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Value" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Значение поля элемента справочника типа "Целое число".</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementEnumFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Перечислимый" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Position" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Запись элемента справочника типа "Перечислимый".</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="GUID">
+									<xs:annotation>
+										<xs:documentation>Код поля элемента справочника типа "Перечислимый".</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Value" type="xs:string">
+									<xs:annotation>
+										<xs:documentation>Значение поля элемента справочника типа "Перечислимый".</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementNsiFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Ссылка на справочник" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="NsiRef" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Ссылка на справочник.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="NsiItemRegistryNumber" type="tns:NsiItemRegistryNumberType">
+									<xs:annotation>
+										<xs:documentation>Реестровый номер справочника.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element ref="tns:ListGroup"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementNsiRefFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Ссылка на элемент внутреннего справочника" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="NsiRef" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Ссылка на элемент внутреннего справочника.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="NsiItemRegistryNumber" type="tns:NsiItemRegistryNumberType">
+									<xs:annotation>
+										<xs:documentation>Реестровый номер справочника.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Ref" type="tns:nsiRef">
+									<xs:annotation>
+										<xs:documentation>Ссылка на элемент справочника.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementOkeiRefFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Ссылка на элемент справочника ОКЕИ" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Code" type="tns:nsiCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код единицы измерения по справочнику ОКЕИ.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementFiasAddressRefFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля типа "Ссылка на элемент справочника ФИАС" для элемента справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="NsiRef" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Ссылка на элемент справочника ФИАС.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Guid" type="xs:string">
+									<xs:annotation>
+										<xs:documentation>Идентификационный код позиции в справочнике ФИАС.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="aoGuid" type="xs:string">
+									<xs:annotation>
+										<xs:documentation>Глобально-уникальный идентификатор адресного объекта в справочнике ФИАС.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NsiElementAttachmentFieldType">
+		<xs:annotation>
+			<xs:documentation>Составной тип. Наименование и значение поля "Вложение"</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:NsiElementFieldType">
+				<xs:sequence>
+					<xs:element name="Document" type="base:AttachmentType">
+						<xs:annotation>
+							<xs:documentation>Документ</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="FieldNameType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип. Наименование поля элемента справочника. Строка не более 200 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="ListGroup">
+		<xs:annotation>
+			<xs:documentation>Группа справочника:
+NSI - (по умолчанию) общесистемный 
+NSIRAO - ОЖФ</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="NSI"/>
+				<xs:enumeration value="NSIRAO"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

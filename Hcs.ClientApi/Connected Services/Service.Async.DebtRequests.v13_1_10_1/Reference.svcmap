@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4a95a0aa-1cd1-4cfb-af9d-d3e5a2414539" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="D:\NetFX\GisGkhClient\GisGkh.ClientApi\hcs-wsdl-sources\hsc-wsdl-v.13.1.10.1\debt-requests\hcs-debt-requests-service-async.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="hcs-nsi-base.xsd" MetadataType="Schema" ID="db3d3caf-99d3-4cad-ad3c-b70ed11e43bf" SourceId="1" SourceUrl="file:///D:/NetFX/GisGkhClient/GisGkh.ClientApi/hcs-wsdl-sources/hsc-wsdl-v.13.1.10.1/lib/hcs-nsi-base.xsd" />
+    <MetadataFile FileName="xmldsig-core-schema.xsd" MetadataType="Schema" ID="cdb9003a-8d09-46b5-a03b-b98448119d46" SourceId="1" SourceUrl="file:///D:/NetFX/GisGkhClient/GisGkh.ClientApi/hcs-wsdl-sources/hsc-wsdl-v.13.1.10.1/lib/xmldsig-core-schema.xsd" />
+    <MetadataFile FileName="hcs-base.xsd" MetadataType="Schema" ID="e70c6a66-5dc2-4ad1-934d-555e6e654a5a" SourceId="1" SourceUrl="file:///D:/NetFX/GisGkhClient/GisGkh.ClientApi/hcs-wsdl-sources/hsc-wsdl-v.13.1.10.1/lib/hcs-base.xsd" />
+    <MetadataFile FileName="hcs-debt-requests-service-async.wsdl" MetadataType="Wsdl" ID="daf9cacf-1051-4af3-863a-a3aaf34c27c2" SourceId="1" SourceUrl="file:///D:/NetFX/GisGkhClient/GisGkh.ClientApi/hcs-wsdl-sources/hsc-wsdl-v.13.1.10.1/debt-requests/hcs-debt-requests-service-async.wsdl" />
+    <MetadataFile FileName="hcs-debt-requests-types.xsd" MetadataType="Schema" ID="02f705b2-a888-4c09-af96-55da3f277d12" SourceId="1" SourceUrl="file:///D:/NetFX/GisGkhClient/GisGkh.ClientApi/hcs-wsdl-sources/hsc-wsdl-v.13.1.10.1/debt-requests/hcs-debt-requests-types.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:house-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" version="11.1.0.3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="hcs-base.xsd" namespace="http://dom.gosuslugi.ru/schema/integration/base/" />
+  <xs:import schemaLocation="hcs-organizations-base.xsd" namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" />
+  <xs:import schemaLocation="hcs-premises-base.xsd" namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" />
+  <xs:import schemaLocation="hcs-nsi-base.xsd" namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" />
+  <xs:element name="FullName">
+    <xs:annotation>
+      <xs:documentation>Полное наименование</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1" />
+        <xs:maxLength value="4000" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="CommercialName" type="base:String255Type">
+    <xs:annotation>
+      <xs:documentation>Фирменное наименование</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="LegalType">
+    <xs:annotation>
+      <xs:documentation>Юридическое лицо</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="tns:ShortName" />
+      <xs:element ref="tns:FullName" />
+      <xs:element minOccurs="0" ref="tns:CommercialName" />
+      <xs:element ref="organizations-base:OGRN" />
+      <xs:element minOccurs="0" name="StateRegistrationDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Дата государственной регистрации</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" ref="organizations-base:INN" />
+      <xs:element minOccurs="0" ref="organizations-base:KPP" />
+      <xs:element minOccurs="0" ref="organizations-base:OKOPF" />
+      <xs:element minOccurs="0" name="Address" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Адрес регистрации</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="FIASHouseGuid" type="house-base:FIASHouseGUIDType">
+        <xs:annotation>
+          <xs:documentation>Адрес регистрации (Глобальный уникальный идентификатор дома по ФИАС)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="ActivityEndDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Дата прекращения деятельности</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SubsidiaryType">
+    <xs:annotation>
+      <xs:documentation>ОП (Обособленное подразделение)</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="FullName">
+        <xs:annotation>
+          <xs:documentation>Полное наименование</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="4000" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="ShortName">
+        <xs:annotation>
+          <xs:documentation>Сокращенное наименование</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="500" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element ref="organizations-base:OGRN" />
+      <xs:element ref="organizations-base:INN" />
+      <xs:element ref="organizations-base:KPP" />
+      <xs:element ref="organizations-base:OKOPF" />
+      <xs:element minOccurs="0" name="Address">
+        <xs:annotation>
+          <xs:documentation>Адрес регистрации</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="4000" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="FIASHouseGuid" type="house-base:FIASHouseGUIDType">
+        <xs:annotation>
+          <xs:documentation>Адрес регистрации (Глобальный уникальный идентификатор дома по ФИАС)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="ActivityEndDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Дата прекращения деятельности</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SourceName">
+        <xs:annotation>
+          <xs:documentation>Источник информации</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="base:String255Type">
+              <xs:attribute name="Date" type="xs:date" use="required">
+                <xs:annotation>
+                  <xs:documentation>от</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ForeignBranchType">
+    <xs:annotation>
+      <xs:documentation>ФПИЮЛ (Филиал или представительство иностранного юридического лица)</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="tns:FullName" />
+      <xs:element minOccurs="0" ref="tns:ShortName" />
+      <xs:element ref="organizations-base:NZA" />
+      <xs:element ref="organizations-base:INN" />
+      <xs:element ref="organizations-base:KPP" />
+      <xs:element minOccurs="0" name="Address" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Адрес места нахождения(жительства)_текст</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FIASHouseGuid" type="house-base:FIASHouseGUIDType">
+        <xs:annotation>
+          <xs:documentation>Адрес места нахождения(жительства)_ФИАС </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AccreditationStartDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Дата внесения записи в реестр аккредитованных</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="AccreditationEndDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Дата прекращения действия аккредитации</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegistrationCountry">
+        <xs:annotation>
+          <xs:documentation>Страна регистрации иностранного ЮЛ (Справочник ОКСМ, альфа-2)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="2" />
+            <xs:maxLength value="2" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EntpsType">
+    <xs:annotation>
+      <xs:documentation>Индивидуальный предприниматель</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Surname" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Фамилия</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FirstName" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Имя</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="Patronymic" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Отчество</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="Sex">
+        <xs:annotation>
+          <xs:documentation>Пол (M- мужской, F-женский)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:maxLength value="1" />
+            <xs:enumeration value="M" />
+            <xs:enumeration value="F" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element ref="organizations-base:OGRNIP">
+        <xs:annotation>
+          <xs:documentation>ОГРН</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="StateRegistrationDate" type="xs:date">
+        <xs:annotation>
+          <xs:documentation>Дата государственной регистрации</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" ref="organizations-base:INN" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RegOrg" type="tns:RegOrgType">
+    <xs:annotation>
+      <xs:documentation>Организация в реестре организаций</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RegOrgType">
+    <xs:sequence>
+      <xs:element ref="tns:orgRootEntityGUID" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RegOrgVersion" type="tns:RegOrgVersionType">
+    <xs:annotation>
+      <xs:documentation>Версия организации в реестре организаций</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RegOrgVersionType">
+    <xs:sequence>
+      <xs:element ref="tns:orgVersionGUID" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RegOrgRootAndVersionType">
+    <xs:annotation>
+      <xs:documentation>Организация и версия организации в реестре организаций</xs:documentation>
+    </xs:annotation>
+    <xs:choice>
+      <xs:element ref="tns:orgVersionGUID" />
+      <xs:element ref="tns:orgRootEntityGUID" />
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="orgRootEntityGUID" type="base:GUIDType">
+    <xs:annotation>
+      <xs:documentation>Идентификатор корневой сущности организации в реестре организаций</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="orgVersionGUID" type="base:GUIDType">
+    <xs:annotation>
+      <xs:documentation>Идентификатор версии записи в реестре организаций</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ShortName">
+    <xs:annotation>
+      <xs:documentation>Сокращенное наименование</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="base:String500Type">
+        <xs:minLength value="1" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+</xs:schema>

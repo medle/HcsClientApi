@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/metering-device-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/metering-device-base/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="11.13.0.6">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="hcs-nsi-base.xsd"/>
+	<!--Приборы учета-->
+	<xs:simpleType name="MeteringDeviceGUIDType">
+		<xs:annotation>
+			<xs:documentation>Идентификатор ПУ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="base:GUIDType"/>
+	</xs:simpleType>
+	<xs:simpleType name="MeteringValueType">
+		<xs:annotation>
+			<xs:documentation>Показание ПУ. Значение (15 до запятой, 7 после)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,15}(\.\d{1,7})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="OneRateMeteringValueBaseType">
+		<xs:annotation>
+			<xs:documentation>Коммунальный ресурс и показание ПУ для однотарифного ПУ. Используется при импорте показаний поверки и фиксации показаний ПУ при его замене, а также, как базовый класс для других типов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MunicipalResource" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Коммунальный ресурс (тепловая энергия, газ, горячая вода, холодная вода, сточные бытовые воды)  (НСИ 2)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MeteringValue" type="tns:MeteringValueType">
+				<xs:annotation>
+					<xs:documentation>Значение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OneRateMeteringValueExportType">
+		<xs:annotation>
+			<xs:documentation>Данные однотарифного ПУ: коммунальный ресурс, последнее полученное показание в единицах измерения ПУ, источник данных о показаниях ПУ. Используется при экспорте данных ПУ</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:OneRateMeteringValueBaseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="ReadingsSource" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Кем внесено</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="orgPPAGUID" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Идентификатор организации, которая ввела показания в Систему. Не заполняется, если показания были введены гражданином</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OneRateMeteringValueExportWithTSType">
+		<xs:annotation>
+			<xs:documentation>Данные однотарифного ПУ: коммунальный ресурс, последнее полученное показание в единицах измерения ПУ, источник данных о показаниях ПУ, время внесения в Систему. Используется при экспорте показаний ПУ</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:OneRateMeteringValueExportType">
+				<xs:sequence>
+					<xs:element name="EnterIntoSystem" type="xs:dateTime">
+						<xs:annotation>
+							<xs:documentation>Дата и время внесения в Систему</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ElectricMeteringValueBaseType">
+		<xs:annotation>
+			<xs:documentation>Показания ПУ электрической энергии. Используется при импорте показаний поверки и фиксации показаний ПУ при его замене, а также, как базовый класс для других типов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MeteringValueT1" type="tns:MeteringValueType">
+				<xs:annotation>
+					<xs:documentation>Значение по тарифу T1</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MeteringValueT2" type="tns:MeteringValueType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Значение по тарифу T2</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MeteringValueT3" type="tns:MeteringValueType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Значение по тарифу T3</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ElectricMeteringValueExportType">
+		<xs:annotation>
+			<xs:documentation>Данные многотарифного ПУ: коммунальный ресурс, последние полученные показания в единицах измерения ПУ, источник данных о показаниях ПУ. Используется при экспорте данных ПУ</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:ElectricMeteringValueBaseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="ReadingsSource" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Кем внесено</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="orgPPAGUID" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Идентификатор организации, которая ввела показания в Систему. Не заполняется, если показания были введены гражданином</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ElectricMeteringValueExportWithTSType">
+		<xs:annotation>
+			<xs:documentation>Данные многотарифного ПУ: коммунальный ресурс, последнее полученное показание в единицах измерения ПУ, источник данных о показаниях ПУ, время внесения в Систему. Используется при экспорте показаний ПУ</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:ElectricMeteringValueExportType">
+				<xs:sequence>
+					<xs:element name="EnterIntoSystem" type="xs:dateTime">
+						<xs:annotation>
+							<xs:documentation>Дата и время внесения в Систему</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="VolumeMeteringValueBaseType">
+		<xs:annotation>
+			<xs:documentation>Объемы потребленных ресурсов по ПУ (электроэнергия, тепловая энергия, газ, горячая вода, холодная вода, сточные бытовые воды)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MunicipalResource" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Коммунальный ресурс (электроэнергия, тепловая энергия, газ, горячая вода, холодная вода, сточные бытовые воды)  (НСИ 2)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MeteringValueT1" type="tns:MeteringValueType">
+				<xs:annotation>
+					<xs:documentation>Объем по тарифу T1</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MeteringValueT2" type="tns:MeteringValueType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Объем по тарифу T2</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MeteringValueT3" type="tns:MeteringValueType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Объем по тарифу T3</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

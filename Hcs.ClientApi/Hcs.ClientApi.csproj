@@ -1,0 +1,736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3AF820FD-6776-4C74-AA76-F918E60FE456}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hcs</RootNamespace>
+    <AssemblyName>Hcs.ClientApi</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Channels" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClientApi\HcsConsoleLogger.cs" />
+    <Compile Include="ClientApi\HcsDebtSubrequestExporter.cs" />
+    <Compile Include="ClientApi\HcsDebtResponse.cs" />
+    <Compile Include="ClientApi\HcsDebtResponseImporter.cs" />
+    <Compile Include="ClientApi\HcsFileWriterMessageCapture.cs" />
+    <Compile Include="ClientApi\HcsClient.cs" />
+    <Compile Include="ClientApi\HcsDebtSubrequest.cs" />
+    <Compile Include="ClientApi\HcsException.cs" />
+    <Compile Include="ClientApi\HcsHouseExporter.cs" />
+    <Compile Include="ClientApi\HcsMemoryMessageCapture.cs" />
+    <Compile Include="ClientApi\HcsRemoteException.cs" />
+    <Compile Include="ClientApi\HcsWorkerBase.cs" />
+    <Compile Include="ClientApi\IHcsLogger.cs" />
+    <Compile Include="ClientApi\IHcsMessageCapture.cs" />
+    <Compile Include="ClientApi\Providers\HcsServiceProviderBase.cs" />
+    <Compile Include="ClientApi\Config\HcsClientConfig.cs" />
+    <Compile Include="ClientApi\Config\HcsConstants.cs" />
+    <Compile Include="ClientApi\Config\GostSigningEndpointBehavior.cs" />
+    <Compile Include="ClientApi\Config\HcsCertificateHelper.cs" />
+    <Compile Include="ClientApi\Config\HcsRequestHelper.cs" />
+    <Compile Include="ClientApi\Interfaces\IHcsAck.cs" />
+    <Compile Include="ClientApi\Interfaces\IHcsFault.cs" />
+    <Compile Include="ClientApi\Interfaces\IHcsGetStateResult.cs" />
+    <Compile Include="ClientApi\Interfaces\IHcsHeaderType.cs" />
+    <Compile Include="ClientApi\Interfaces\IHcsProvider.cs" />
+    <Compile Include="ClientApi\Config\GostSigningMessageInspector.cs" />
+    <Compile Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="GostCryptography\Asn1\Ber\Asn18BitCharString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BerDecodeBuffer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BerDecodeContext.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BerEncodeBuffer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BerInputStream.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BerMessageDumpHandler.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BerOutputStream.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BigInteger.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BitString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1BmpString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Boolean.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1CerInputStream.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1CerOutputStream.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1CharRange.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1CharSet.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1CharString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Choice.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1ChoiceExt.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1DecodeBuffer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1DerDecodeBuffer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1DerEncodeBuffer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1DerInputStream.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1DiscreteCharSet.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1EncodeBuffer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Enumerated.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1GeneralizedTime.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1GeneralString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1GraphicString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Ia5String.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Integer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1MessageBuffer.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Null.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1NumericString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1ObjectDescriptor.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1ObjectIdentifier.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1OctetString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1OpenExt.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1OpenType.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1OutputStream.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1PrintableString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Real.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1RelativeOid.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1RunTime.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Status.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1T61String.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Tag.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Time.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1TraceHandler.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Type.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1UniversalString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1UtcTime.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Utf8String.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Util.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1Value.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1VarWidthCharString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1VideotexString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Asn1VisibleString.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\BigInteger.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\IAsn1InputStream.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\IAsn1NamedEventHandler.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\IAsn1TaggedEventHandler.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\IAsn1Type.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\IntHolder.cs" />
+    <Compile Include="GostCryptography\Asn1\Ber\Tokenizer.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\GostAsn1Choice.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_BlobParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_Constants.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_EncryptedKey.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_Iv.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_Key.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_KeyExchangeInfo.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_KeyWrap.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_KeyWrapParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_Mac.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_28147_89\Gost_28147_89_Params.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410\Gost_R3410_KeyExchange.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410\Gost_R3410_KeyExchangeParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410\Gost_R3410_KeyTransport.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410\Gost_R3410_PublicKey.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410\Gost_R3410_PublicKeyParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410\Gost_R3410_PublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410\Gost_R3410_TransportParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3410_2001_Constants.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3410_2001_DhPublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3410_2001_KeyExchange.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3410_2001_KeyExchangeParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3410_2001_PublicKey.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3410_2001_PublicKeyParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3410_2001_PublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3411_2001_DigestParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2001\Gost_R3411_2001_DigestParamsType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3410_2012_256_Constants.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3410_2012_256_DhPublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3410_2012_256_KeyExchange.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3410_2012_256_KeyExchangeParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3410_2012_256_PublicKey.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3410_2012_256_PublicKeyParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3410_2012_256_PublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3411_2012_256_DigestParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_256\Gost_R3411_2012_256_DigestParamsType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3410_94_Constants.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3410_94_DhPublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3410_94_KeyExchange.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3410_94_KeyExchangeParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3410_94_PublicKey.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3410_94_PublicKeyParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3410_94_PublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3411_94_DigestParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_94\Gost_R3411_94_DigestParamsType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3411\Gost_R3411_DigestParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3411\Gost_R3411_DigestParamsType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3410_2012_512_Constants.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3410_2012_512_DhPublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3410_2012_512_KeyExchange.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3410_2012_512_KeyExchangeParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3410_2012_512_PublicKey.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3410_2012_512_PublicKeyParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3410_2012_512_PublicKeyType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3411_2012_512_DigestParams.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\Gost_R3410_2012_512\Gost_R3411_2012_512_DigestParamsType.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\PublicKey\AlgorithmId.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\PublicKey\AlgorithmIdentifier.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\PublicKey\PkiConstants.cs" />
+    <Compile Include="GostCryptography\Asn1\Gost\PublicKey\SubjectPublicKeyInfo.cs" />
+    <Compile Include="GostCryptography\Asn1\NullParams.cs" />
+    <Compile Include="GostCryptography\Asn1\OidValue.cs" />
+    <Compile Include="GostCryptography\Base\GostAsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Base\GostExternalAsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Base\GostHashAlgorithm.cs" />
+    <Compile Include="GostCryptography\Base\GostHMAC.cs" />
+    <Compile Include="GostCryptography\Base\GostKeyedHashAlgorithm.cs" />
+    <Compile Include="GostCryptography\Base\GostKeyExchangeAlgorithm.cs" />
+    <Compile Include="GostCryptography\Base\GostKeyExchangeDeformatter.cs" />
+    <Compile Include="GostCryptography\Base\GostKeyExchangeExportMethod.cs" />
+    <Compile Include="GostCryptography\Base\GostKeyExchangeFormatter.cs" />
+    <Compile Include="GostCryptography\Base\GostPrf.cs" />
+    <Compile Include="GostCryptography\Base\GostSignatureDeformatter.cs" />
+    <Compile Include="GostCryptography\Base\GostSignatureDescription.cs" />
+    <Compile Include="GostCryptography\Base\GostSignatureFormatter.cs" />
+    <Compile Include="GostCryptography\Base\GostSymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Base\IGostAlgorithm.cs" />
+    <Compile Include="GostCryptography\Base\ProviderType.cs" />
+    <Compile Include="GostCryptography\Config\GostCryptoConfig.cs" />
+    <Compile Include="GostCryptography\ExceptionUtility.cs" />
+    <Compile Include="GostCryptography\Gost_28147_89\Gost_28147_89_CryptoTransform.cs" />
+    <Compile Include="GostCryptography\Gost_28147_89\Gost_28147_89_CryptoTransformMode.cs" />
+    <Compile Include="GostCryptography\Gost_28147_89\Gost_28147_89_ImitHashAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_28147_89\Gost_28147_89_ImitHashAlgorithmBase.cs" />
+    <Compile Include="GostCryptography\Gost_28147_89\Gost_28147_89_SymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_28147_89\Gost_28147_89_SymmetricAlgorithmBase.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2001_AsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2001_EphemeralAsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2001_KeyExchangeAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2001_KeyExchangeDeformatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2001_KeyExchangeFormatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2001_KeyExchangeXmlSerializer.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2001_SignatureDescription.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_256_AsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_256_EphemeralAsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_256_KeyExchangeAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_256_KeyExchangeDeformatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_256_KeyExchangeFormatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_256_KeyExchangeXmlSerializer.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_256_SignatureDescription.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_512_AsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_512_EphemeralAsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_512_KeyExchangeAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_512_KeyExchangeDeformatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_512_KeyExchangeFormatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_512_KeyExchangeXmlSerializer.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_2012_512_SignatureDescription.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_AsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_AsymmetricAlgorithmBase.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_EphemeralAsymmetricAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_KeyExchangeAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_KeyExchangeDeformatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_KeyExchangeFormatter.cs" />
+    <Compile Include="GostCryptography\Gost_R3410\Gost_R3410_KeyExchangeXmlSerializer.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_2012_256_HashAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_2012_256_HMAC.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_2012_256_PRF.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_2012_512_HashAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_2012_512_HMAC.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_2012_512_PRF.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_94_HashAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_94_HMAC.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_94_PRF.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_HashAlgorithm.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_HMAC.cs" />
+    <Compile Include="GostCryptography\Gost_R3411\Gost_R3411_PRF.cs" />
+    <Compile Include="GostCryptography\Native\Constants.cs" />
+    <Compile Include="GostCryptography\Native\CryptoApi.cs" />
+    <Compile Include="GostCryptography\Native\CryptoApiHelper.cs" />
+    <Compile Include="GostCryptography\Native\ISafeHandleProvider.cs" />
+    <Compile Include="GostCryptography\Native\SafeHashHandleImpl.cs" />
+    <Compile Include="GostCryptography\Native\SafeKeyHandleImpl.cs" />
+    <Compile Include="GostCryptography\Native\SafeProvHandleImpl.cs" />
+    <Compile Include="GostCryptography\Pkcs\GostSignedCms.cs" />
+    <Compile Include="GostCryptography\Properties\Resources.Designer.cs" />
+    <Compile Include="GostCryptography\Reflection\CryptographyUtils.cs" />
+    <Compile Include="GostCryptography\Reflection\CryptographyXmlUtils.cs" />
+    <Compile Include="GostCryptography\Reflection\CspKeyContainerInfoHelper.cs" />
+    <Compile Include="GostCryptography\Reflection\EncryptedXmlHelper.cs" />
+    <Compile Include="GostCryptography\Reflection\SignedXmlHelper.cs" />
+    <Compile Include="GostCryptography\Reflection\X509CertificateHelper.cs" />
+    <Compile Include="GostCryptography\Xml\GetIdElementDelegate.cs" />
+    <Compile Include="GostCryptography\Xml\GostEncryptedXml.cs" />
+    <Compile Include="GostCryptography\Xml\GostEncryptedXmlImpl.cs" />
+    <Compile Include="GostCryptography\Xml\GostKeyValue.cs" />
+    <Compile Include="GostCryptography\Xml\GostSignedXml.cs" />
+    <Compile Include="GostCryptography\Xml\GostSignedXmlImpl.cs" />
+    <Compile Include="GostCryptography\Xml\Gost_R3410_2001_KeyValue.cs" />
+    <Compile Include="GostCryptography\Xml\Gost_R3410_2012_256_KeyValue.cs" />
+    <Compile Include="GostCryptography\Xml\Gost_R3410_2012_512_KeyValue.cs" />
+    <Compile Include="GostXades\Abstractions\ICertificateMatcher.cs" />
+    <Compile Include="GostXades\Abstractions\ICryptoProvider.cs" />
+    <Compile Include="GostXades\Abstractions\IIssuerComparer.cs" />
+    <Compile Include="GostXades\Abstractions\IXadesService.cs" />
+    <Compile Include="GostXades\CertificateMatcher.cs" />
+    <Compile Include="GostXades\CryptoProviderTypeEnum.cs" />
+    <Compile Include="GostXades\GostCryptoProvider.cs" />
+    <Compile Include="GostXades\GostXadesBesService.cs" />
+    <Compile Include="GostXades\Helpers\ArrayHelper.cs" />
+    <Compile Include="GostXades\Helpers\CertificateHelper.cs" />
+    <Compile Include="GostXades\Helpers\CollectionHelper.cs" />
+    <Compile Include="GostXades\Helpers\ConvertHelper.cs" />
+    <Compile Include="GostXades\Helpers\DateTimeHelper.cs" />
+    <Compile Include="GostXades\Helpers\EnumerableHelper.cs" />
+    <Compile Include="GostXades\Helpers\GostHashAlgorithmHelper.cs" />
+    <Compile Include="GostXades\Helpers\KeyInfoHelper.cs" />
+    <Compile Include="GostXades\Helpers\X509NameHelper.cs" />
+    <Compile Include="GostXades\Helpers\XadesSignedXmlHelper.cs" />
+    <Compile Include="GostXades\Helpers\XmlDocumentHelper.cs" />
+    <Compile Include="GostXades\IssuerComparer.cs" />
+    <Compile Include="GostXades\XadesBesSignedXml.cs" />
+    <Compile Include="GostXades\XadesBesValidationException.cs" />
+    <Compile Include="GostXades\XadesInfo.cs" />
+    <Compile Include="Microsoft\Xades\AllDataObjectsTimeStampCollection.cs" />
+    <Compile Include="Microsoft\Xades\Cert.cs" />
+    <Compile Include="Microsoft\Xades\CertCollection.cs" />
+    <Compile Include="Microsoft\Xades\CertificateValues.cs" />
+    <Compile Include="Microsoft\Xades\CertifiedRole.cs" />
+    <Compile Include="Microsoft\Xades\CertifiedRoleCollection.cs" />
+    <Compile Include="Microsoft\Xades\CertifiedRoles.cs" />
+    <Compile Include="Microsoft\Xades\CertRefs.cs" />
+    <Compile Include="Microsoft\Xades\ClaimedRole.cs" />
+    <Compile Include="Microsoft\Xades\ClaimedRoleCollection.cs" />
+    <Compile Include="Microsoft\Xades\ClaimedRoles.cs" />
+    <Compile Include="Microsoft\Xades\CommitmentTypeIndication.cs" />
+    <Compile Include="Microsoft\Xades\CommitmentTypeIndicationCollection.cs" />
+    <Compile Include="Microsoft\Xades\CommitmentTypeQualifier.cs" />
+    <Compile Include="Microsoft\Xades\CommitmentTypeQualifierCollection.cs" />
+    <Compile Include="Microsoft\Xades\CommitmentTypeQualifiers.cs" />
+    <Compile Include="Microsoft\Xades\CompleteCertificateRefs.cs" />
+    <Compile Include="Microsoft\Xades\CompleteRevocationRefs.cs" />
+    <Compile Include="Microsoft\Xades\CounterSignatureCollection.cs" />
+    <Compile Include="Microsoft\Xades\CRLIdentifier.cs" />
+    <Compile Include="Microsoft\Xades\CRLRef.cs" />
+    <Compile Include="Microsoft\Xades\CRLRefCollection.cs" />
+    <Compile Include="Microsoft\Xades\CRLRefs.cs" />
+    <Compile Include="Microsoft\Xades\CRLValue.cs" />
+    <Compile Include="Microsoft\Xades\CRLValueCollection.cs" />
+    <Compile Include="Microsoft\Xades\CRLValues.cs" />
+    <Compile Include="Microsoft\Xades\DataObjectFormat.cs" />
+    <Compile Include="Microsoft\Xades\DataObjectFormatCollection.cs" />
+    <Compile Include="Microsoft\Xades\DigestAlgAndValueType.cs" />
+    <Compile Include="Microsoft\Xades\DigestMethod.cs" />
+    <Compile Include="Microsoft\Xades\DocumentationReference.cs" />
+    <Compile Include="Microsoft\Xades\DocumentationReferenceCollection.cs" />
+    <Compile Include="Microsoft\Xades\DocumentationReferences.cs" />
+    <Compile Include="Microsoft\Xades\EncapsulatedPKIData.cs" />
+    <Compile Include="Microsoft\Xades\EncapsulatedX509Certificate.cs" />
+    <Compile Include="Microsoft\Xades\EncapsulatedX509CertificateCollection.cs" />
+    <Compile Include="Microsoft\Xades\HashDataInfo.cs" />
+    <Compile Include="Microsoft\Xades\HashDataInfoCollection.cs" />
+    <Compile Include="Microsoft\Xades\Identifier.cs" />
+    <Compile Include="Microsoft\Xades\IndividualDataObjectsTimeStampCollection.cs" />
+    <Compile Include="Microsoft\Xades\IssuerSerial.cs" />
+    <Compile Include="Microsoft\Xades\NoticeNumberCollection.cs" />
+    <Compile Include="Microsoft\Xades\NoticeNumbers.cs" />
+    <Compile Include="Microsoft\Xades\NoticeRef.cs" />
+    <Compile Include="Microsoft\Xades\ObjectIdentifier.cs" />
+    <Compile Include="Microsoft\Xades\ObjectReference.cs" />
+    <Compile Include="Microsoft\Xades\ObjectReferenceCollection.cs" />
+    <Compile Include="Microsoft\Xades\OCSPIdentifier.cs" />
+    <Compile Include="Microsoft\Xades\OCSPRef.cs" />
+    <Compile Include="Microsoft\Xades\OCSPRefCollection.cs" />
+    <Compile Include="Microsoft\Xades\OCSPRefs.cs" />
+    <Compile Include="Microsoft\Xades\OCSPValue.cs" />
+    <Compile Include="Microsoft\Xades\OCSPValueCollection.cs" />
+    <Compile Include="Microsoft\Xades\OCSPValues.cs" />
+    <Compile Include="Microsoft\Xades\OtherCertificate.cs" />
+    <Compile Include="Microsoft\Xades\OtherCertificateCollection.cs" />
+    <Compile Include="Microsoft\Xades\OtherRef.cs" />
+    <Compile Include="Microsoft\Xades\OtherRefCollection.cs" />
+    <Compile Include="Microsoft\Xades\OtherRefs.cs" />
+    <Compile Include="Microsoft\Xades\OtherValue.cs" />
+    <Compile Include="Microsoft\Xades\OtherValueCollection.cs" />
+    <Compile Include="Microsoft\Xades\OtherValues.cs" />
+    <Compile Include="Microsoft\Xades\QualifyingProperties.cs" />
+    <Compile Include="Microsoft\Xades\RevocationValues.cs" />
+    <Compile Include="Microsoft\Xades\SignaturePolicyId.cs" />
+    <Compile Include="Microsoft\Xades\SignaturePolicyIdentifier.cs" />
+    <Compile Include="Microsoft\Xades\SignatureProductionPlace.cs" />
+    <Compile Include="Microsoft\Xades\SignatureTimeStampCollection.cs" />
+    <Compile Include="Microsoft\Xades\SignedDataObjectProperties.cs" />
+    <Compile Include="Microsoft\Xades\SignedProperties.cs" />
+    <Compile Include="Microsoft\Xades\SignedSignatureProperties.cs" />
+    <Compile Include="Microsoft\Xades\SignerRole.cs" />
+    <Compile Include="Microsoft\Xades\SigningCertificate.cs" />
+    <Compile Include="Microsoft\Xades\SigPolicyQualifier.cs" />
+    <Compile Include="Microsoft\Xades\SigPolicyQualifierCollection.cs" />
+    <Compile Include="Microsoft\Xades\SigPolicyQualifiers.cs" />
+    <Compile Include="Microsoft\Xades\SPUri.cs" />
+    <Compile Include="Microsoft\Xades\SPUserNotice.cs" />
+    <Compile Include="Microsoft\Xades\TimeStamp.cs" />
+    <Compile Include="Microsoft\Xades\Transform.cs" />
+    <Compile Include="Microsoft\Xades\TransformCollection.cs" />
+    <Compile Include="Microsoft\Xades\Transforms.cs" />
+    <Compile Include="Microsoft\Xades\UnsignedDataObjectProperties.cs" />
+    <Compile Include="Microsoft\Xades\UnsignedDataObjectProperty.cs" />
+    <Compile Include="Microsoft\Xades\UnsignedDataObjectPropertyCollection.cs" />
+    <Compile Include="Microsoft\Xades\UnsignedProperties.cs" />
+    <Compile Include="Microsoft\Xades\UnsignedSignatureProperties.cs" />
+    <Compile Include="Microsoft\Xades\XadesObject.cs" />
+    <Compile Include="Microsoft\Xades\XadesSignedXml.cs" />
+    <Compile Include="Microsoft\Xades\XMLTimeStamp.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ClientApi\Providers\DebtRequestsProvider.cs" />
+    <Compile Include="ClientApi\Providers\HouseManagmentProvider.cs" />
+    <Compile Include="ClientApi\Config\HcsServicePointConfig.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-debt-requests-service-async.wsdl" />
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-debt-requests-types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-nsi-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.AckRequest.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.exportDebtRequestsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.exportDebtSubrequestsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.getStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.getStateResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.importDebtRequestsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.importResponsesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.ResultHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-account-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-bills-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-house-management-service-async.wsdl" />
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-house-management-types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-individual-registry-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-metering-device-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-nsi-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-organizations-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-organizations-registry-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-premises-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.AckRequest.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.demolishHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportAccountDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportAccountIndividualServicesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefApartmentHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefBasicHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefLivingHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefSocialHireContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefSupplyResourceContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportCAChDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportHouseDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportMeteringDeviceDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportOwnerDecisionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportOwnerRefusalResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportRolloverStatusCAChResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportStatusCAChDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportStatusPublicPropertyContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportSupplyResourceContractDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportSupplyResourceContractObjectAddressDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportVotingMessageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportVotingProtocolResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.getStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.getStateResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importAccountDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importAccountIndividualServicesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importCharterDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importContractDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importExternalVotingProtocolResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importHouseESPDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importHouseOMSDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importHouseUODataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importMeteringDeviceDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importNotificationDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importOwnerDecisionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importOwnerRefusalResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importPublicPropertyContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importSupplyResourceContractDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importSupplyResourceContractObjectAddressDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importSupplyResourceContractProjectDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importVotingMessageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importVotingProtocolResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.ResultHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Doc\20220506_Регистрация ИС в-ГИС-ЖКХ.docx" />
+    <None Include="Doc\20220506_УспешныйОтветНаЗапрос.7z" />
+    <None Include="GostCryptography\LICENSE" />
+    <None Include="GostCryptography\README.md" />
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\debt-requests\hcs-debt-requests-service-async.wsdl" />
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\debt-requests\hcs-debt-requests-types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\house-management\hcs-house-management-service-async.wsdl" />
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\house-management\hcs-house-management-types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-account-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-bills-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-individual-registry-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-metering-device-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-nsi-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-organizations-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-organizations-registry-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-payments-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-premises-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Microsoft\Xades\XAdES.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Microsoft\Xades\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\" />
+    <WCFMetadataStorage Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\configuration.svcinfo" />
+    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="HcsWsdlSources\how-to-generate-cs-from-wsdl.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GostCryptography\Properties\Resources.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
