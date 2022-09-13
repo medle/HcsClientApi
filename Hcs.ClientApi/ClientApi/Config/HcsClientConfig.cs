@@ -72,10 +72,5 @@ namespace Hcs.ClientApi.Config
         /// </summary>
         public void MaybeCaptureMessage(bool sent, string messageBody)
             => MessageCapture?.CaptureMessage(sent, messageBody);
-
-        /// <summary>
-        /// Число миллисекунд которое следует ждать между попытками получить ответ на запрос.
-        /// </summary>
-        public int ResultWaitingDelayMillis { get; set; } = 5000;
     }
 }

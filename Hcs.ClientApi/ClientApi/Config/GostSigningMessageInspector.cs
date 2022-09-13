@@ -34,12 +34,13 @@ namespace Hcs.ClientApi.Config
                     clientConfig.MaybeCaptureMessage(true, messageBody);
                 }
                 else {
-                    clientConfig.Log("Подписываю сообщение...");
+                    clientConfig.Log($"Подписываю сообщение ключем {clientConfig.CertificateThumbprint}...");
                     var service = new GostXadesBesService(clientConfig.CryptoProviderType);
                     var signedXml = service.Sign(messageBody,
                         HcsConstants.SignElementId,
                         clientConfig.CertificateThumbprint,
                         clientConfig.CertificatePassword);
+                    clientConfig.Log("Сообщение подписано.");
 
                     clientConfig.MaybeCaptureMessage(true, signedXml);
                     request = Message.CreateMessage(

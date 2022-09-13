@@ -22,7 +22,8 @@ namespace Hcs.ClientApi
         public string RequestNumber;      // номер запроса
         public DateTime SentDate;         // дата направления
         public string Address;            // строка адреса из запроса
-        public Guid FiasHouseGuid;        // идентификатор ФИАС здания
+        public Guid FiasHouseGuid;        // идентификатор здания в ФИАС
+        public Guid GisHouseGuid;         // идентификатор здания в ГИСЖКХ 
         public string AddressDetails;     // номер помещения
         public DateTime DebtStartDate;    // начало периода задолженности
         public DateTime DebtEndDate;      // конец периода задолженности  

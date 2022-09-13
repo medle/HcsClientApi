@@ -40,11 +40,9 @@ Console.WriteLine("house number=" + number);
 ГОСТ 2012 (ProviderType=80)
 
 ## Использованные библиотеки
-```
 GostCryptography: https://github.com/AlexMAS/GostCryptography
 BouncyCastle.Crypto: https://github.com/bcgit/bc-csharp
 Microsoft.Xades: https://github.com/Caliper/Xades
-```
 
 Пакет NuGet для GostCryptography существует, но не содержит сборку 
 подписанную ключем StrongName. Чтобы вызывать Hcs.ClientApi.dll из

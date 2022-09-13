@@ -71,6 +71,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientApi\Config\HcsUtil.cs" />
     <Compile Include="ClientApi\HcsConsoleLogger.cs" />
     <Compile Include="ClientApi\HcsDebtSubrequestExporter.cs" />
     <Compile Include="ClientApi\HcsDebtResponse.cs" />

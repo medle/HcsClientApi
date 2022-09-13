@@ -45,11 +45,11 @@ namespace Hcs.ClientApi
         }
 
         public async Task<int> ExportDSRsByPeriodOfSending(
-            DateTime startDate, DateTime endDate, Action<HcsDebtSubrequest> resultHandler,
-            CancellationToken token = default)
+            DateTime startDate, DateTime endDate, Guid? firstSubrequestGuid, 
+            Action<HcsDebtSubrequest> resultHandler, CancellationToken token = default)
         {
             int numResults = 0;
-            Guid? nextSubrequestGuid = null;
+            Guid? nextSubrequestGuid = firstSubrequestGuid;
 
             while (true) {
                 if (numResults == 0) Log("Запрашиваем первую партию записей...");
@@ -87,8 +87,22 @@ namespace Hcs.ClientApi
                 conditionValues.Add(firstSubrequestGuid.ToString());
             }
 
-            return await ExportSubrequestBatchByCondition(
-                conditionTypes.ToArray(), conditionValues.ToArray(), token);
+            Func<Task<DSRsBatch>> func = async () 
+                => await ExportSubrequestBatchByCondition(
+                        conditionTypes.ToArray(), conditionValues.ToArray(), token);
+            return await RunRepeatableTaskAsync(func, CanWeIgnoreSuchException, 5);
+        }
+
+        private bool CanWeIgnoreSuchException(Exception e)
+        {
+            // Проверяем частую ошибку:
+            // "Произошла ошибка при передаче данных. Попробуйте осуществить передачу данных повторно."
+            if (HcsUtil.ListInnerExceptions(e).Any(
+                x => x is HcsRemoteException && (x as HcsRemoteException).ErrorCode == "EXP001000")) {
+                return true;
+            }
+
+            return false;
         }
 
         private async Task<DSRsBatch> ExportSubrequestBatchByCondition(
@@ -111,11 +125,6 @@ namespace Hcs.ClientApi
             var provider = new DebtRequestsProvider(ClientConfig);
             var ack = await provider.SendAsync(request);
             var result = await provider.WaitForResultAsync(ack, true, token);
-
-            result.Items.OfType<DebtRequests.ErrorMessageType>().ToList().ForEach(x => {
-                throw new HcsRemoteException(x.ErrorCode, x.Description);
-            });
-
             var batch = new DSRsBatch();
 
             result.Items.OfType<DebtRequests.exportDSRsResultType>().ToList().ForEach(r => {
@@ -123,13 +132,18 @@ namespace Hcs.ClientApi
 
                 if (r.subrequestData != null) {
                     r.subrequestData.ToList().ForEach(s => {
+
                         var dsr = new HcsDebtSubrequest();
                         dsr.SubrequestGuid = ParseGuid(s.subrequestGUID);
                         dsr.RequestGuid = ParseGuid(s.requestInfo.requestGUID);
                         dsr.RequestNumber = s.requestInfo.requestNumber;
                         dsr.SentDate = s.requestInfo.sentDate;
                         dsr.Address = s.requestInfo.housingFundObject.address;
-                        dsr.FiasHouseGuid = ParseGuid(s.requestInfo.housingFundObject.fiasHouseGUID);
+                        // ГУИД здания в ФИАС может быть не указан
+                        if (!string.IsNullOrEmpty(s.requestInfo.housingFundObject.fiasHouseGUID)) {
+                            dsr.FiasHouseGuid = ParseGuid(s.requestInfo.housingFundObject.fiasHouseGUID);
+                        }
+                        dsr.GisHouseGuid = ParseGuid(s.requestInfo.housingFundObject.houseGUID);
                         dsr.AddressDetails = s.requestInfo.housingFundObject.addressDetails;
                         dsr.DebtStartDate = s.requestInfo.period.startDate;
                         dsr.DebtEndDate = s.requestInfo.period.endDate;

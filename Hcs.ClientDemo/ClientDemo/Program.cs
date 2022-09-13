@@ -17,30 +17,30 @@ namespace Hcs.ClientDemo
             client.Logger = new HcsConsoleLogger();
 
             // чтобы создавались файлы сообщений и ответов системы
-            client.MessageCapture = new HcsFileWriterMessageCapture(null, client.Logger);
+            //client.MessageCapture = new HcsFileWriterMessageCapture(null, client.Logger);
 
             // выбираем сертификат подписи сообщений
-            var cert = client.FindCertificate(x => x.Subject.Contains("Иванов"));
+            var cert = client.FindCertificate(x => x.Subject.Contains("Фадеев"));
             if (cert == null) return;
             client.SetSigningCertificate(cert);
 
             // промышленная система 
             client.IsPPAK = true;
             if (client.IsPPAK) {
-                // GUID поставщика информации ППАК (20.05.2022)
+                // GUID поставщика информации ЭКК ППАК (20.05.2022)
                 client.OrgPPAGUID = "488d95f6-4f6a-4e4e-b78a-ea259ef0ded2";
-                // исполнитель/cотрудник ГИСЖКХ
+                // исполнитель/cотрудник ГИСЖКХ: ЛарионовСА
                 client.ExecutorGUID = "e0cba564-b675-4077-b7da-356b18301bc2"; 
             }
             else { // тестовый стенд
-                // GUID поставщика информации СИТ01 (21.04.2022)
+                // GUID поставщика информации ЭКК СИТ01 (21.04.2022)
                 client.OrgPPAGUID = "3a16bc99-3016-42cd-b088-52106be6fa99"; 
             }
 
             try {
-                //TestExportOneDebtRequest(client);
+                TestExportOneDebtRequest(client);
                 //TestImportOneDebtResponse(client);
-                TestExportHouse(client);
+                //TestExportHouse(client);
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace Hcs.ClientDemo
             Action<HcsDebtSubrequest> handler = delegate (HcsDebtSubrequest s) { };
 
             var date = new DateTime(2022, 5, 16);
-            int n = client.ExportDSRsByPeriodOfSending(date, date, handler).Result;
+            int n = client.ExportDSRsByPeriodOfSending(date, date, null, handler).Result;
 
             client.Log($"Получено запросов: {n}");
         }

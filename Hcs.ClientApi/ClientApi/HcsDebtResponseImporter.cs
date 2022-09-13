@@ -43,7 +43,6 @@ namespace Hcs.ClientApi
             var ack = await provider.SendAsync(request);
             var result = await provider.WaitForResultAsync(ack, true, token);
 
-            if (result.Items == null) throw new HcsException("Пустой result.Items");
             var responseResults = result.Items.Select(
                 x => ParseDebtResponseResultSafely(x)).ToArray();
 

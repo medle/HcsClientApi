@@ -46,11 +46,13 @@ namespace Hcs.ClientApi
         public async Task<int> ExportDSRsByPeriodOfSending(
             DateTime startDate, 
             DateTime endDate, 
+            Guid? firstSubrequestGuid,
             Action<HcsDebtSubrequest> resultHandler,
             CancellationToken token = default)
         {
             var worker = new HcsDebtSubrequestExporter(this);
-            return await worker.ExportDSRsByPeriodOfSending(startDate, endDate, resultHandler, token);
+            return await worker.ExportDSRsByPeriodOfSending(
+                startDate, endDate, firstSubrequestGuid, resultHandler, token);
         }
 
         /// <summary>

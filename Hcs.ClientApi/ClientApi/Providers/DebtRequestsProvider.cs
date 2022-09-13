@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 using Hcs.ClientApi.Config;
 using Hcs.ClientApi.Interfaces;
@@ -41,6 +42,12 @@ namespace Hcs.ClientApi.Providers
         /// </summary>
         public async Task<IHcsAck> SendAsync(object request)
         {
+            Func<Task<IHcsAck>> func = async () => await SendBareAsync(request);
+            return await RunRepeatableTaskInsistentlyAsync(func);
+        }
+
+        private async Task<IHcsAck> SendBareAsync(object request)
+        {
             if (request == null) throw new ArgumentNullException("Null request");
             _config.Log($"Отправляем запрос {request.GetType().Name}...");
 
@@ -75,6 +82,12 @@ namespace Hcs.ClientApi.Providers
         /// </summary>
         public override async Task<IHcsGetStateResult> TryGetResultAsync(IHcsAck sourceAck)
         {
+            Func<Task<IHcsGetStateResult>> func = async () => await TryGetResultBareAsync(sourceAck);
+            return await RunRepeatableTaskInsistentlyAsync(func);
+        }
+
+        private async Task<IHcsGetStateResult> TryGetResultBareAsync(IHcsAck sourceAck)
+        {
             using (var client = NewPortClient()) {
                 var requestHeader = HcsRequestHelper.CreateHeader<DebtRequests.RequestHeader>(_config);
                 var requestBody = new DebtRequests.getStateRequest { MessageGUID = sourceAck.MessageGUID };
@@ -83,11 +96,27 @@ namespace Hcs.ClientApi.Providers
                 var resultBody = response.getStateResult;
 
                 if (resultBody.RequestState == HcsAsyncRequestStateTypes.Ready) {
+                    CheckResultForErrors(resultBody);
                     return resultBody;
                 }
 
                 return null;
             }
+        }
+
+        private void CheckResultForErrors(IHcsGetStateResult result)
+        {
+            if (result == null) throw new HcsException("Пустой result");
+
+            if (result.Items == null) throw new HcsException("Пустой result.Items");
+
+            result.Items.OfType<DebtRequests.Fault>().ToList().ForEach(x => {
+                throw new HcsRemoteException(x.ErrorCode, x.ErrorMessage);
+            });
+
+            result.Items.OfType<DebtRequests.ErrorMessageType>().ToList().ForEach(x => {
+                throw new HcsRemoteException(x.ErrorCode, x.Description);
+            });
         }
     }
 }
