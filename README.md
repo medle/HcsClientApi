@@ -1,5 +1,5 @@
 ﻿
-## HcsClientApi Пример реализации клиента для API ГИС ЖКХ на C#
+## HcsClientApi: пример реализации клиента для API ГИС ЖКХ на C#
 
 Реализованы функции сервиса получения запросов о наличии задолженности
 и направление ответов на эти запросы. 
@@ -32,21 +32,22 @@ Console.WriteLine("house number=" + number);
 Построено на основе проекта HCS: https://github.com/gizmo75rus/HCS 
 
 Большая часть кода прямо заимствована у gizmo75rus и только перекомпанована
-для того чтобы иметь одну готовую библиотеку для включения в промышленное 
+чтобы иметь одну готовую библиотеку для включения в промышленное 
 решение.
 
-Выполнена адаптация к актуальной (2022/04) версии GostCryptography
+Выполнена адаптация к актуальной (2022/04) версии GostCryptography.
 Алгоритмы подписи заменены с устаревшего ГОСТ (ProviderType=75) на 
 ГОСТ 2012 (ProviderType=80)
 
 ## Использованные библиотеки
-GostCryptography: https://github.com/AlexMAS/GostCryptography
-BouncyCastle.Crypto: https://github.com/bcgit/bc-csharp
-Microsoft.Xades: https://github.com/Caliper/Xades
+* GostCryptography: https://github.com/AlexMAS/GostCryptography
+* BouncyCastle.Crypto: https://github.com/bcgit/bc-csharp
+* Microsoft.Xades: https://github.com/Caliper/Xades
 
 Пакет NuGet для GostCryptography существует, но не содержит сборку 
 подписанную ключем StrongName. Чтобы вызывать Hcs.ClientApi.dll из
 подписанных сборок, надо иметь подписанную GostCryptography.dll. 
-Чтобы не собирать отдельно подписанную сборку ее код добавлен
-в проект. Это потребовало сделать сборку проекта в параметрах 
-проекта UnSafe. 
+Чтобы не собирать отдельно подписанную сборку код GostCryptography 
+прямо добавлен в проект. Это потребовало сделать сборку проекта в 
+параметрах проекта UnSafe (GostCryptography использует unsafe
+вызовы CryptoApi). 
