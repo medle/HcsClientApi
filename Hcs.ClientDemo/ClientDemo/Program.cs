@@ -9,7 +9,7 @@ namespace Hcs.ClientDemo
     public class Program 
     {
         /// <summary>
-        /// Демонстрационная программа вызова функций ГИСЖКХ.
+        /// Демонстрационная программа вызова функций ГИС ЖКХ.
         /// </summary>
         public static void Main(string[] args)
         {
