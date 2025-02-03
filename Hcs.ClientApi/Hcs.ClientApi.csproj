@@ -47,10 +47,11 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>EsoStrongNameKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -783,7 +784,6 @@
     <None Include="Doc\20220506_Регистрация ИС ЭКК-ГИС-ЖКХ.docx" />
     <None Include="Doc\20220506_УспешныйОтветНаЗапрос.7z" />
     <None Include="Doc\20220516_Уведомление об окончании тестовых испытаний.docx" />
-    <None Include="EsoStrongNameKey.snk" />
     <None Include="GostCryptography\LICENSE" />
     <None Include="GostCryptography\README.md" />
     <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\debt-requests\hcs-debt-requests-service-async.wsdl" />
@@ -885,7 +885,6 @@
     <Content Include="Doc\20220720_Service_Fault_Example.txt" />
     <Content Include="Doc\20220720_Service_Fault_Example_2.txt" />
     <Content Include="HcsWsdlSources\how-to-generate-cs-from-wsdl.txt" />
-    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GostCryptography\Properties\Resources.resx" />
