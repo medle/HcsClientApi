@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="9d29cba8-2b83-4597-a575-bed27922dbaa" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="D:\NetFX\Eso.System\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\device-metering\hcs-device-metering-service-async.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="hcs-nsi-base.xsd" MetadataType="Schema" ID="b0340444-1849-4b40-b061-053657b6fb49" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-nsi-base.xsd" />
+    <MetadataFile FileName="hcs-device-metering-service-async.wsdl" MetadataType="Wsdl" ID="3d3562f9-2d8a-4f5a-aaa0-22d00865b55b" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/device-metering/hcs-device-metering-service-async.wsdl" />
+    <MetadataFile FileName="hcs-device-metering-types.xsd" MetadataType="Schema" ID="457ef098-ee33-459f-84ad-8208318d9835" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/device-metering/hcs-device-metering-types.xsd" />
+    <MetadataFile FileName="hcs-metering-device-base.xsd" MetadataType="Schema" ID="3a5eb621-317d-41e2-b57b-25dc647ddf34" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-metering-device-base.xsd" />
+    <MetadataFile FileName="hcs-base.xsd" MetadataType="Schema" ID="570c2387-17e2-4667-b4b9-340271dd7d03" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-base.xsd" />
+    <MetadataFile FileName="xmldsig-core-schema.xsd" MetadataType="Schema" ID="c1d664c7-4e8e-413a-90c4-0e5fdd3ed1b6" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/xmldsig-core-schema.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

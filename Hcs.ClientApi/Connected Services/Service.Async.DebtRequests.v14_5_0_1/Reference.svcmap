@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="645bc055-367f-46df-8c38-d6380dab516d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="D:\NetFX\Eso.System\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\debt-requests\hcs-debt-requests-service-async.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="hcs-debt-requests-service-async.wsdl" MetadataType="Wsdl" ID="6f91cf99-33aa-4d54-9665-473eb28f1eca" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/debt-requests/hcs-debt-requests-service-async.wsdl" />
+    <MetadataFile FileName="hcs-nsi-base.xsd" MetadataType="Schema" ID="758210c3-b108-4e08-8ac6-5bd3112f3742" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-nsi-base.xsd" />
+    <MetadataFile FileName="hcs-base.xsd" MetadataType="Schema" ID="e1d8df35-e2c6-4bcf-8c1b-b57a9bdb8616" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-base.xsd" />
+    <MetadataFile FileName="hcs-debt-requests-types.xsd" MetadataType="Schema" ID="981cd6a8-85a5-4a35-b495-58bd4bfa7bcd" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/debt-requests/hcs-debt-requests-types.xsd" />
+    <MetadataFile FileName="xmldsig-core-schema.xsd" MetadataType="Schema" ID="16d443f5-1faa-4ebe-97f6-23c1b85ceb2e" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/xmldsig-core-schema.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

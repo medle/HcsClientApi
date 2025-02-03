@@ -1,0 +1,1049 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/house-management-service-async/" xmlns:hm="http://dom.gosuslugi.ru/schema/integration/house-management/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ns="http://www.w3.org/2000/09/xmldsig#" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://dom.gosuslugi.ru/schema/integration/account-base/" xmlns:ns2="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" xmlns:ns3="http://dom.gosuslugi.ru/schema/integration/metering-device-base/" xmlns:ns4="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ns5="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:ns6="http://dom.gosuslugi.ru/schema/integration/bills-base/" xmlns:ns7="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:ns8="http://dom.gosuslugi.ru/schema/integration/premises-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/house-management-service-async/">
+	<wsdl:types>
+		<xs:schema version="13.1.9.2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/house-management/" schemaLocation="hcs-house-management-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:message name="importMeteringDeviceDataRequest">
+		<wsdl:part name="importMeteringDeviceDataRequest" element="hm:importMeteringDeviceDataRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportMeteringDeviceDataRequest">
+		<wsdl:part name="exportMeteringDeviceDataRequest" element="hm:exportMeteringDeviceDataRequest"/>
+	</wsdl:message>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="importMeteringDeviceDataResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="hm:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="importContractRequest">
+		<wsdl:part name="importContractRequest" element="hm:importContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importCharterRequest">
+		<wsdl:part name="importCharterRequest" element="hm:importCharterRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportStatusCAChRequest">
+		<wsdl:part name="exportStatusCAChRequest" element="hm:exportStatusCAChRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportHouseRequest">
+		<wsdl:part name="exportHouseRequest" element="hm:exportHouseRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportMeteringDeviceDataResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importContractResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importCharterResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportStatusCAChResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importHouseResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportHouseResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAccountDataRequest">
+		<wsdl:part name="importAccountData" element="hm:importAccountRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAccountDataResult">
+		<wsdl:part name="AckResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportAccountDataRequest">
+		<wsdl:part name="exportAccountDataRequest" element="hm:exportAccountRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportAccountDataResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importPublicPropertyContractRequest">
+		<wsdl:part name="importPublicPropertyContractRequest" element="hm:importPublicPropertyContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importPublicPropertyContractResult">
+		<wsdl:part name="AckResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportStatusPublicPropertyContractRequest">
+		<wsdl:part name="exportStatusPublicPropertyContractRequest" element="hm:exportStatusPublicPropertyContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportStatusPublicPropertyContractResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importNotificationRequest">
+		<wsdl:part name="importNotificationRequest" element="hm:importNotificationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importNotificationResult">
+		<wsdl:part name="AckResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importVotingProtocolRequest">
+		<wsdl:part name="importVotingProtocolRequest" element="hm:importVotingProtocolRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importVotingProtocolResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportVotingProtocolRequest">
+		<wsdl:part name="exportVotingProtocolRequest" element="hm:exportVotingProtocolRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportVotingProtocolResult">
+		<wsdl:part name="AckRequestr" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="InvalidRequest"/>
+	<wsdl:message name="exportCAChDataRequest">
+		<wsdl:part name="exportCAChDataRequest" element="hm:exportCAChAsyncRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportCAChDataResult">
+		<wsdl:part name="exportCAChDataResult" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importHouseUODataRequest">
+		<wsdl:part name="importHouseUODataRequest" element="hm:importHouseUORequest"/>
+	</wsdl:message>
+	<wsdl:message name="importHouseUODataResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importHouseOMSDataRequest">
+		<wsdl:part name="importHouseOMSDataRequest" element="hm:importHouseOMSRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importHouseOMSDataResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importHouseESPDataRequest">
+		<wsdl:part name="importHouseESPDataRequest" element="hm:importHouseESPRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importHouseESPDataResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSupplyResourceContractRequest">
+		<wsdl:part name="importSupplyResourceContractRequest" element="hm:importSupplyResourceContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSupplyResourceContractResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportSupplyResourceContractRequest">
+		<wsdl:part name="exportSupplyResourceContractRequest" element="hm:exportSupplyResourceContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportSupplyResourceContractResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAccountIndividualServicesRequest">
+		<wsdl:part name="importAccountIndividualServicesRequest" element="hm:importAccountIndividualServicesRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importAccountIndividualServicesResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportAccountIndividualServicesRequest">
+		<wsdl:part name="exportAccountIndividualServicesRequest" element="hm:exportAccountIndividualServicesRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportAccountIndividualServicesResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportSupplyResourceContractObjectAddressRequest">
+		<wsdl:part name="exportSupplyResourceContractObjectAddressRequest" element="hm:exportSupplyResourceContractObjectAddressRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportSupplyResourceContractObjectAddressResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSupplyResourceContractObjectAddressRequest">
+		<wsdl:part name="importSupplyResourceContractObjectAddressRequest" element="hm:importSupplyResourceContractObjectAddressRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSupplyResourceContractObjectAddressResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSupplyResourceContractProjectRequest">
+		<wsdl:part name="importSupplyResourceContractProjectRequest" element="hm:importSupplyResourceContractProjectRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSupplyResourceContractProjectResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ISRequestHeader">
+		<wsdl:part name="Header" element="base:ISRequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="exportRolloverStatusCAChRequest">
+		<wsdl:part name="exportRolloverStatusCAChRequest" element="hm:exportRolloverStatusCAChRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportRolloverStatusCAChResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefSupplyResourceContractRequest">
+		<wsdl:part name="exportBriefSupplyResourceContractRequest" element="hm:exportBriefSupplyResourceContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefSupplyResourceContractResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="demolishHouseRequest">
+		<wsdl:part name="demolishHouseRequest" element="hm:demolishHouseRequest"/>
+	</wsdl:message>
+	<wsdl:message name="demolishHouseResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefSocialHireContractRequest">
+		<wsdl:part name="exportBriefSocialHireContractRequest" element="hm:exportBriefSocialHireContractRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefSocialHireContractResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefBasicHouseRequest">
+		<wsdl:part name="exportBriefBasicHouseRequest" element="hm:exportBriefBasicHouseRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefBasicHouseResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefLivingHouseRequest">
+		<wsdl:part name="exportBriefLivingHouseRequest" element="hm:exportBriefLivingHouseRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefLivingHouseResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefApartmentHouseRequest">
+		<wsdl:part name="exportBriefApartmentHouseRequest" element="hm:exportBriefApartmentHouseRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportBriefApartmentHouseResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importOwnerDecisionRequest">
+		<wsdl:part name="importOwnerDecisionRequest" element="hm:importOwnerDecisionRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importOwnerDecisionResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportOwnerDecisionRequest">
+		<wsdl:part name="exportOwnerDecisionRequest" element="hm:exportOwnerDecisionRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportOwnerDecisionResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importExternalVotingProtocolRequest">
+		<wsdl:part name="importExternalVotingProtocolRequest" element="hm:importExternalVotingProtocolRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importExternalVotingProtocolResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importVotingMessageRequest">
+		<wsdl:part name="importVotingMessagenRequest" element="hm:importVotingMessageRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importVotingMessageResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportVotingMessageRequest">
+		<wsdl:part name="exportVotingMessageRequest" element="hm:exportVotingMessageRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportVotingMessageResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importOwnerRefusalRequest">
+		<wsdl:part name="importOwnerRefusalRequest" element="hm:importOwnerRefusalRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importOwnerRefusalResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportOwnerRefusalRequest">
+		<wsdl:part name="exportOwnerRefusalRequest" element="hm:exportOwnerRefusalRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportOwnerRefusalResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:portType name="HouseManagementPortsTypeAsync">
+		<wsdl:operation name="importMeteringDeviceData">
+			<wsdl:documentation>Передать данные ПУ</wsdl:documentation>
+			<wsdl:input message="tns:importMeteringDeviceDataRequest"/>
+			<wsdl:output message="tns:importMeteringDeviceDataResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportMeteringDeviceData">
+			<wsdl:documentation>Получить перечень ПУ</wsdl:documentation>
+			<wsdl:input message="tns:exportMeteringDeviceDataRequest"/>
+			<wsdl:output message="tns:exportMeteringDeviceDataResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importContractData">
+			<wsdl:documentation>Cоздание/редактирование, удаление, пролонгация, расторжение ДУ</wsdl:documentation>
+			<wsdl:input message="tns:importContractRequest"/>
+			<wsdl:output message="tns:importContractResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importCharterData">
+			<wsdl:documentation>Cоздание/редактирование, удаление, пролонгация, расторжение устава</wsdl:documentation>
+			<wsdl:input message="tns:importCharterRequest"/>
+			<wsdl:output message="tns:importCharterResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportStatusCAChData">
+			<wsdl:documentation>Экспорт статусов договоров управления, уставов, доп. соглашений</wsdl:documentation>
+			<wsdl:input message="tns:exportStatusCAChRequest"/>
+			<wsdl:output message="tns:exportStatusCAChResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportHouseData">
+			<wsdl:documentation>ВИ_ИРАО_ДОМ_ЭКСП. Экспорт данных дома.</wsdl:documentation>
+			<wsdl:input message="tns:exportHouseRequest"/>
+			<wsdl:output message="tns:exportHouseResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importAccountData">
+			<wsdl:documentation>ВИ_ИЛС_СЗЛС. передать данные лицевых счетов</wsdl:documentation>
+			<wsdl:input message="tns:importAccountDataRequest"/>
+			<wsdl:output message="tns:importAccountDataResult"/>
+			<wsdl:fault name="invalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportAccountData">
+			<wsdl:documentation>ВИ_ИЛС_РЛС. получить перечень лицевых счетов</wsdl:documentation>
+			<wsdl:input message="tns:exportAccountDataRequest"/>
+			<wsdl:output message="tns:exportAccountDataResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importPublicPropertyContract">
+			<wsdl:documentation>Импорт ДОИ (Договор на пользование общим имуществом)</wsdl:documentation>
+			<wsdl:input message="tns:importPublicPropertyContractRequest"/>
+			<wsdl:output message="tns:importPublicPropertyContractResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportStatusPublicPropertyContract">
+			<wsdl:documentation>Экспорт списка ДОИ</wsdl:documentation>
+			<wsdl:input message="tns:exportStatusPublicPropertyContractRequest"/>
+			<wsdl:output message="tns:exportStatusPublicPropertyContractResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importNotificationData">
+			<wsdl:documentation>ВИ_ИО_И_1. Импорт новостей для информирования граждан</wsdl:documentation>
+			<wsdl:input message="tns:importNotificationRequest"/>
+			<wsdl:output message="tns:importNotificationResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importVotingProtocol">
+			<wsdl:documentation>Импорт протокола ОСС</wsdl:documentation>
+			<wsdl:input message="tns:importVotingProtocolRequest"/>
+			<wsdl:output message="tns:importVotingProtocolResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportVotingProtocol">
+			<wsdl:documentation>Экспорт протокола ОСС</wsdl:documentation>
+			<wsdl:input message="tns:exportVotingProtocolRequest"/>
+			<wsdl:output message="tns:exportVotingProtocolResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importOwnerDecision">
+			<wsdl:documentation>Импорт решения собственника по вопросам голосования</wsdl:documentation>
+			<wsdl:input message="tns:importOwnerDecisionRequest"/>
+			<wsdl:output message="tns:importOwnerDecisionResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportOwnerDecision">
+			<wsdl:documentation>Экспорт решений собственников по вопросам голосования</wsdl:documentation>
+			<wsdl:input message="tns:exportOwnerDecisionRequest"/>
+			<wsdl:output message="tns:exportOwnerDecisionResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportCAChData">
+			<wsdl:documentation>Экспорт договоров управления, уставов, доп. соглашений</wsdl:documentation>
+			<wsdl:input message="tns:exportCAChDataRequest"/>
+			<wsdl:output message="tns:exportCAChDataResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importHouseUOData">
+			<wsdl:documentation>Импорт данных дома для полномочия УО</wsdl:documentation>
+			<wsdl:input message="tns:importHouseUODataRequest"/>
+			<wsdl:output message="tns:importHouseUODataResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importHouseOMSData">
+			<wsdl:documentation>Импорт данных дома для полномочия ОМС</wsdl:documentation>
+			<wsdl:input message="tns:importHouseOMSDataRequest"/>
+			<wsdl:output message="tns:importHouseOMSDataResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importHouseESPData">
+			<wsdl:documentation>Импорт данных дома для полномочия ЕСП</wsdl:documentation>
+			<wsdl:input message="tns:importHouseESPDataRequest"/>
+			<wsdl:output message="tns:importHouseESPDataResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importSupplyResourceContractData">
+			<wsdl:documentation>Импорт договора ресурсоснабжения с РСО</wsdl:documentation>
+			<wsdl:input message="tns:importSupplyResourceContractRequest"/>
+			<wsdl:output message="tns:importSupplyResourceContractResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportSupplyResourceContractData">
+			<wsdl:documentation>Экспорт договоров ресурсоснабжения</wsdl:documentation>
+			<wsdl:input message="tns:exportSupplyResourceContractRequest"/>
+			<wsdl:output message="tns:exportSupplyResourceContractResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importAccountIndividualServices">
+			<wsdl:documentation>Импорт индивидуальных услуг лицевого счета</wsdl:documentation>
+			<wsdl:input message="tns:importAccountIndividualServicesRequest"/>
+			<wsdl:output message="tns:importAccountIndividualServicesResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportAccountIndividualServices">
+			<wsdl:documentation>Экспорт индивидуальных услуг лицевого счета</wsdl:documentation>
+			<wsdl:input message="tns:exportAccountIndividualServicesRequest"/>
+			<wsdl:output message="tns:exportAccountIndividualServicesResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportSupplyResourceContractObjectAddressData">
+			<wsdl:documentation>Экспорт объектов жилищного фонда из договоров ресурсоснабжения</wsdl:documentation>
+			<wsdl:input message="tns:exportSupplyResourceContractObjectAddressRequest"/>
+			<wsdl:output message="tns:exportSupplyResourceContractObjectAddressResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importSupplyResourceContractObjectAddressData">
+			<wsdl:documentation>Импорт информации об объектах жилищного фонда в договор ресурсоснабжения</wsdl:documentation>
+			<wsdl:input message="tns:importSupplyResourceContractObjectAddressRequest"/>
+			<wsdl:output message="tns:importSupplyResourceContractObjectAddressResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importSupplyResourceContractProjectData">
+			<wsdl:documentation>Импорт проекта договора ресурсоснабжения</wsdl:documentation>
+			<wsdl:input message="tns:importSupplyResourceContractProjectRequest"/>
+			<wsdl:output message="tns:importSupplyResourceContractProjectResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportRolloverStatusCACh">
+			<wsdl:documentation>Экспорт статусов автопролонгации договоров управления, уставов</wsdl:documentation>
+			<wsdl:input message="tns:exportRolloverStatusCAChRequest"/>
+			<wsdl:output message="tns:exportRolloverStatusCAChResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefSupplyResourceContract">
+			<wsdl:documentation>Экспорт сокращенного состава информации о договоре ресурсоснабжения</wsdl:documentation>
+			<wsdl:input message="tns:exportBriefSupplyResourceContractRequest"/>
+			<wsdl:output message="tns:exportBriefSupplyResourceContractResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefSocialHireContract">
+			<wsdl:documentation>Экспорт краткой информации о договоре найма</wsdl:documentation>
+			<wsdl:input message="tns:exportBriefSocialHireContractRequest"/>
+			<wsdl:output message="tns:exportBriefSocialHireContractResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="demolishHouse">
+			<wsdl:documentation>Операция сноса дома</wsdl:documentation>
+			<wsdl:input message="tns:demolishHouseRequest"/>
+			<wsdl:output message="tns:demolishHouseResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefBasicHouse">
+			<wsdl:documentation>Экспорт краткой базовой информации о доме</wsdl:documentation>
+			<wsdl:input message="tns:exportBriefBasicHouseRequest"/>
+			<wsdl:output message="tns:exportBriefBasicHouseResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefLivingHouse">
+			<wsdl:documentation>Экспорт краткой информации о жилом доме</wsdl:documentation>
+			<wsdl:input message="tns:exportBriefLivingHouseRequest"/>
+			<wsdl:output message="tns:exportBriefLivingHouseResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefApartmentHouse">
+			<wsdl:documentation>Экспорт краткой информации о многоквартирном доме</wsdl:documentation>
+			<wsdl:input message="tns:exportBriefApartmentHouseRequest"/>
+			<wsdl:output message="tns:exportBriefApartmentHouseResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importExternalVotingProtocol">
+			<wsdl:documentation>Импорт итогов голосования, проведенного с использованием системы, отличной от ГИС ЖКХ</wsdl:documentation>
+			<wsdl:input message="tns:importExternalVotingProtocolRequest"/>
+			<wsdl:output message="tns:importExternalVotingProtocolResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importVotingMessage">
+			<wsdl:documentation>Импорт сообщения о проведении ОСС</wsdl:documentation>
+			<wsdl:input message="tns:importVotingMessageRequest"/>
+			<wsdl:output message="tns:importVotingMessageResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportVotingMessage">
+			<wsdl:documentation>Экспорт сообщения о проведении ОСС</wsdl:documentation>
+			<wsdl:input message="tns:exportVotingMessageRequest"/>
+			<wsdl:output message="tns:exportVotingMessageResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importOwnerRefusal">
+			<wsdl:documentation>Импорт письменных отказов собственников</wsdl:documentation>
+			<wsdl:input message="tns:importOwnerRefusalRequest"/>
+			<wsdl:output message="tns:importOwnerRefusalResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportOwnerRefusal">
+			<wsdl:documentation>Экспорт письменных отказов собственников</wsdl:documentation>
+			<wsdl:input message="tns:exportOwnerRefusalRequest"/>
+			<wsdl:output message="tns:exportOwnerRefusalResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="HouseManagementBindingAsync" type="tns:HouseManagementPortsTypeAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="importMeteringDeviceData">
+			<soap:operation soapAction="urn:importMeteringDeviceData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportMeteringDeviceData">
+			<soap:operation soapAction="urn:exportMeteringDeviceData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importContractData">
+			<soap:operation soapAction="urn:importContractData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importCharterData">
+			<soap:operation soapAction="urn:importCharterData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportStatusCAChData">
+			<soap:operation soapAction="urn:exportStatusCAChData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportHouseData">
+			<soap:operation soapAction="urn:exportHouseData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importAccountData">
+			<soap:operation soapAction="urn:importAccountData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="invalidRequest">
+				<soap:fault name="invalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportAccountData">
+			<soap:operation soapAction="urn:exportAccountData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importPublicPropertyContract">
+			<soap:operation soapAction="urn:importPublicPropertyContract"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportStatusPublicPropertyContract">
+			<soap:operation soapAction="urn:exportStatusPublicPropertyContract"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importNotificationData">
+			<soap:operation soapAction="urn:importNotificationData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importVotingProtocol">
+			<soap:operation soapAction="urn:importVotingProtocol"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportVotingProtocol">
+			<soap:operation soapAction="urn:exportVotingProtocol"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importOwnerDecision">
+			<soap:operation soapAction="urn:importOwnerDecision"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportOwnerDecision">
+			<soap:operation soapAction="urn:exportOwnerDecision"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportCAChData">
+			<soap:operation soapAction="urn:exportCAChData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importHouseUOData">
+			<soap:operation soapAction="urn:importHouseUOData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importHouseOMSData">
+			<soap:operation soapAction="urn:importHouseOMSData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importHouseESPData">
+			<soap:operation soapAction="urn:importHouseESPData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importSupplyResourceContractData">
+			<soap:operation soapAction="urn:importSupplyResourceContractData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportSupplyResourceContractData">
+			<soap:operation soapAction="urn:exportSupplyResourceContractData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importAccountIndividualServices">
+			<soap:operation soapAction="urn:importAccountIndividualServices"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportAccountIndividualServices">
+			<soap:operation soapAction="urn:exportAccountIndividualServices"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportSupplyResourceContractObjectAddressData">
+			<soap:operation soapAction="urn:exportSupplyResourceContractObjectAddressData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importSupplyResourceContractObjectAddressData">
+			<soap:operation soapAction="urn:importSupplyResourceContractObjectAddressData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importSupplyResourceContractProjectData">
+			<soap:operation soapAction="urn:importSupplyResourceContractProjectData"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportRolloverStatusCACh">
+			<soap:operation soapAction="urn:exportRolloverStatusCACh"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ISRequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefSupplyResourceContract">
+			<soap:operation soapAction="urn:exportBriefSupplyResourceContract"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefSocialHireContract">
+			<soap:operation soapAction="urn:exportBriefSocialHireContract"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="demolishHouse">
+			<soap:operation soapAction="urn:demolishHouse"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefBasicHouse">
+			<soap:operation soapAction="urn:exportBriefBasicHouse"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefLivingHouse">
+			<soap:operation soapAction="urn:exportBriefLivingHouse"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportBriefApartmentHouse">
+			<soap:operation soapAction="urn:exportBriefApartmentHouse"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importExternalVotingProtocol">
+			<soap:operation soapAction="urn:importExternalVotingProtocol"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importVotingMessage">
+			<soap:operation soapAction="urn:importVotingMessage"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportVotingMessage">
+			<soap:operation soapAction="urn:exportVotingMessage"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importOwnerRefusal">
+			<soap:operation soapAction="urn:importOwnerRefusal"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportOwnerRefusal">
+			<soap:operation soapAction="urn:exportOwnerRefusal"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="HouseManagementServiceAsync">
+		<wsdl:documentation>Сервис управления объектами РАО</wsdl:documentation>
+		<wsdl:port name="HouseManagementPortAsync" binding="tns:HouseManagementBindingAsync">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-home-management-service/services/HomeManagementAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

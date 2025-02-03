@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://dom.gosuslugi.ru/schema/integration/organizations-registry/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:organizations-registry-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.0.0.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" schemaLocation="../lib/hcs-organizations-registry-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<!--Импорт сведений об обособленных подразделениях-->
+	<xs:element name="importSubsidiaryRequest">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="Subsidiary" maxOccurs="100">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="tns:SubsidiaryImportType">
+										<xs:sequence>
+											<xs:element ref="base:TransportGUID"/>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="10.0.2.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importSubsidiaryRequest_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Импорт сведений о филиале или представительстве иностранного юридического лица-->
+	<xs:element name="importForeignBranchRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт сведений о филиале или представительстве иностранного юридического лица</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="ForeignBranch" maxOccurs="100">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="tns:ForeignBranchImportType">
+										<xs:sequence>
+											<xs:element ref="base:TransportGUID"/>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="11.1.0.3"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importForeignBranchRequest_TransportGUIDKey">
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Асинхронные мтоды-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element ref="base:ErrorMessage"/>
+						<xs:element name="ImportResult" type="base:CommonResultType" maxOccurs="unbounded"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="10.0.2.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SubsidiaryImportType">
+		<xs:annotation>
+			<xs:documentation>Импорт ОП</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="CreateSubsidiary">
+				<xs:annotation>
+					<xs:documentation>Создание обособленного подразделения</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="organizations-registry-base:SubsidiaryType">
+							<xs:sequence>
+								<xs:element ref="organizations-registry-base:orgVersionGUID">
+									<xs:annotation>
+										<xs:documentation>Идентификатор головной организации версии записи в реестре организаций</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UpdateSubsidiary">
+				<xs:annotation>
+					<xs:documentation>Внесение изменений в обособленное подразделение</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="organizations-registry-base:orgVersionGUID"/>
+						<xs:element name="FullName" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Полное наименование</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="4000"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element ref="organizations-base:INN" minOccurs="0"/>
+						<xs:element ref="organizations-base:OKOPF" minOccurs="0"/>
+						<xs:element name="Address" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Адрес регистрации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FIASHouseGuid" type="premises-base:FIASHouseGUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Адрес регистрации (Глобальный уникальный идентификатор дома по ФИАС)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ActivityEndDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Дата прекращения деятельности</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="SourceName" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Источник информации</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="base:String255Type">
+										<xs:attribute name="Date" type="xs:date" use="required">
+											<xs:annotation>
+												<xs:documentation>от</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ForeignBranchImportType">
+		<xs:annotation>
+			<xs:documentation>Импорт ФПИЮЛ</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="CreateForeignBranch" type="organizations-registry-base:ForeignBranchType">
+				<xs:annotation>
+					<xs:documentation>Создание филиала или представительства иностранного юридического лица</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UpdateForeignBranch">
+				<xs:annotation>
+					<xs:documentation>Изменение филиала или представительства иностранного юридического лица</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="organizations-registry-base:orgVersionGUID"/>
+						<xs:element name="FullName">
+							<xs:annotation>
+								<xs:documentation>Полное наименование</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="4000"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ShortName" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сокращенное наименование</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="255"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element ref="organizations-base:INN"/>
+						<xs:element ref="organizations-base:KPP"/>
+						<xs:element name="Address" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Адрес места нахождения(жительства)_текст</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FIASHouseGuid" type="premises-base:FIASHouseGUIDType">
+							<xs:annotation>
+								<xs:documentation>Адрес места нахождения(жительства)_ФИАС </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AccreditationStartDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата внесения записи в реестр аккредитованных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AccreditationEndDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Дата прекращения действия аккредитации</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RegistrationCountry">
+							<xs:annotation>
+								<xs:documentation>Страна регистрации иностранного ЮЛ (Справочник ОКСМ, альфа-2)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="2"/>
+									<xs:maxLength value="2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

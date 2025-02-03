@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/account-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/account-base/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="10.0.1.2">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="hcs-nsi-base.xsd"/>
+	<!--Лицевые счета и начисления-->
+	<xs:element name="AccountGuid" type="base:GUIDType">
+		<xs:annotation>
+			<xs:documentation>Идентификатор лицевого счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AccountNumber">
+		<xs:annotation>
+			<xs:documentation>Номер лицевого счета/Иной идентификатор плательщика</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="30"/>
+				<xs:pattern value="(.*)([0-9а-яА-Яa-zA-Z]+)(.*)"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:complexType name="PaymentReasonType">
+		<xs:annotation>
+			<xs:documentation>Основание для обязательств по оплате</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContractNumber" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Номер договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContractDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата заключения договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContractEndDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Срок окончания действия договора</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="UnifiedAccountNumber">
+		<xs:annotation>
+			<xs:documentation>Единый лицевой счет</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="10"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="CheckingAccount">
+		<xs:annotation>
+			<xs:documentation>Расчетный счет</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="20"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:simpleType name="AccountType">
+		<xs:annotation>
+			<xs:documentation>Счет</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="ServiceID">
+		<xs:annotation>
+			<xs:documentation>Идентификатор жилищно-коммунальной услуги</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="13"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

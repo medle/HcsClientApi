@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/organizations-registry-service-async/" xmlns:ro="http://dom.gosuslugi.ru/schema/integration/organizations-registry/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ns="http://www.w3.org/2000/09/xmldsig#" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ns2="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" xmlns:ns3="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:ns4="http://dom.gosuslugi.ru/schema/integration/premises-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-service-async/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="10.0.2.1">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry/" schemaLocation="hcs-organizations-registry-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="ro:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:message name="RequestHeader">
+		<wsdl:part name="Header" element="base:RequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="importSubsidiaryRequest">
+		<wsdl:part name="importSubsidiaryRequest" element="ro:importSubsidiaryRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importSubsidiaryResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importForeignBranchRequest">
+		<wsdl:part name="importForeignBranchRequest" element="ro:importForeignBranchRequest"/>
+	</wsdl:message>
+	<wsdl:message name="importForeignBranchResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:portType name="RegOrgPortsTypeAsync">
+		<wsdl:operation name="getState">
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importSubsidiary">
+			<wsdl:input message="tns:importSubsidiaryRequest"/>
+			<wsdl:output message="tns:importSubsidiaryResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="importForeignBranch">
+			<wsdl:documentation>импорт сведений о филиале или представительстве иностранного юридического лица</wsdl:documentation>
+			<wsdl:input message="tns:importForeignBranchRequest"/>
+			<wsdl:output message="tns:importForeignBranchResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="RegOrgBindingAsync" type="tns:RegOrgPortsTypeAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importSubsidiary">
+			<soap:operation soapAction="urn:importSubsidiary"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="importForeignBranch">
+			<soap:operation soapAction="urn:importForeignBranch"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:RequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="RegOrgServiceAsync">
+		<wsdl:port name="RegOrgAsyncPort" binding="tns:RegOrgBindingAsync">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-org-registry-service/services/OrgRegistryAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/organizations-registry-common-service-async/" xmlns:ro="http://dom.gosuslugi.ru/schema/integration/organizations-registry-common/" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ns="http://www.w3.org/2000/09/xmldsig#" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-common-service-async/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="11.2.0.2">
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-common/" schemaLocation="hcs-organizations-registry-common-types.xsd"/>
+			<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getStateRequest">
+		<wsdl:part name="getStateRequest" element="base:getStateRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getStateResult">
+		<wsdl:part name="getStateResult" element="ro:getStateResult"/>
+	</wsdl:message>
+	<wsdl:message name="Fault">
+		<wsdl:part name="Fault" element="base:Fault"/>
+	</wsdl:message>
+	<wsdl:message name="exportOrgRegistryRequest">
+		<wsdl:part name="exportOrgRegistryRequest" element="ro:exportOrgRegistryRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportOrgRegistryResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ISRequestHeader">
+		<wsdl:part name="Header" element="base:ISRequestHeader"/>
+	</wsdl:message>
+	<wsdl:message name="ResultHeader">
+		<wsdl:part name="Header" element="base:ResultHeader"/>
+	</wsdl:message>
+	<wsdl:message name="exportDataProviderRequest">
+		<wsdl:part name="exportDataProviderRequest" element="ro:exportDataProviderRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportDataProviderResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportDelegatedAccessRequest">
+		<wsdl:part name="exportDelegatedAccessRequest" element="ro:exportDelegatedAccessRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportDelegatedAccessResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportObjectsDelegatedAccessRequest">
+		<wsdl:part name="exportObjectsDelegatedAccessRequest" element="ro:exportObjectsDelegatedAccessRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportObjectsDelegatedAccessResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportTerritoryDelegatedAccessRequest">
+		<wsdl:part name="exportTerritoryDelegatedAccessRequest" element="ro:exportTerritoryDelegatedAccessRequest"/>
+	</wsdl:message>
+	<wsdl:message name="exportTerritoryDelegatedAccessResult">
+		<wsdl:part name="AckRequest" element="base:AckRequest"/>
+	</wsdl:message>
+	<wsdl:portType name="RegOrgPortsTypeAsync">
+		<wsdl:operation name="getState">
+			<wsdl:input message="tns:getStateRequest"/>
+			<wsdl:output message="tns:getStateResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportOrgRegistry">
+			<wsdl:input message="tns:exportOrgRegistryRequest"/>
+			<wsdl:output message="tns:exportOrgRegistryResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportDataProvider">
+			<wsdl:documentation>экспорт сведений о поставщиках данных</wsdl:documentation>
+			<wsdl:input message="tns:exportDataProviderRequest"/>
+			<wsdl:output message="tns:exportDataProviderResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportDelegatedAccess">
+			<wsdl:input message="tns:exportDelegatedAccessRequest"/>
+			<wsdl:output message="tns:exportDelegatedAccessResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportObjectsDelegatedAccess">
+			<wsdl:documentation>Экспорт сведений об объектах из заявок на делегирование прав</wsdl:documentation>
+			<wsdl:input message="tns:exportObjectsDelegatedAccessRequest"/>
+			<wsdl:output message="tns:exportObjectsDelegatedAccessResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+		<wsdl:operation name="exportTerritoryDelegatedAccess">
+			<wsdl:documentation>Экспорт сведений о территориях из заявок на делегирование прав</wsdl:documentation>
+			<wsdl:input message="tns:exportTerritoryDelegatedAccessRequest"/>
+			<wsdl:output message="tns:exportTerritoryDelegatedAccessResult"/>
+			<wsdl:fault name="InvalidRequest" message="tns:Fault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="RegOrgBindingAsync" type="tns:RegOrgPortsTypeAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getState">
+			<soap:operation soapAction="urn:getState"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ISRequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportOrgRegistry">
+			<soap:operation soapAction="urn:exportOrgRegistry"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ISRequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportDataProvider">
+			<soap:operation soapAction="urn:exportDataProvider"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ISRequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportDelegatedAccess">
+			<soap:operation soapAction="urn:exportDelegatedAccess"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ISRequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportObjectsDelegatedAccess">
+			<soap:operation soapAction="urn:exportObjectsDelegatedAccess"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ISRequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="exportTerritoryDelegatedAccess">
+			<soap:operation soapAction="urn:exportTerritoryDelegatedAccess"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ISRequestHeader" part="Header" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+				<soap:header message="tns:ResultHeader" part="Header" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidRequest">
+				<soap:fault name="InvalidRequest" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="RegOrgServiceAsync">
+		<wsdl:port name="RegOrgAsyncPort" binding="tns:RegOrgBindingAsync">
+			<soap:address location="https://api.dom.gosuslugi.ru/ext-bus-org-registry-common-service/services/OrgRegistryCommonAsync"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

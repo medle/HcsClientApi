@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="73d3c00f-7b15-40b3-ae01-b936392b836c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="D:\NetFX\Eso.System\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\organizations-registry-common\hcs-organizations-registry-common-service-async.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="hcs-organizations-base.xsd" MetadataType="Schema" ID="6eb8fb2d-1e4a-4365-b67e-652abf72d12c" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-organizations-base.xsd" />
+    <MetadataFile FileName="hcs-organizations-registry-base.xsd" MetadataType="Schema" ID="bc507fcb-4c57-4d5f-b3ca-52e2a8542e40" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-organizations-registry-base.xsd" />
+    <MetadataFile FileName="hcs-premises-base.xsd" MetadataType="Schema" ID="f55c5e6d-dae4-4940-a88f-3b2dced038b5" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-premises-base.xsd" />
+    <MetadataFile FileName="xmldsig-core-schema.xsd" MetadataType="Schema" ID="fa5144fd-1759-4d0c-a94f-d32dc7030312" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/xmldsig-core-schema.xsd" />
+    <MetadataFile FileName="hcs-organizations-registry-common-service-async.wsdl" MetadataType="Wsdl" ID="f64ae724-e41d-40bd-accc-067743f9041a" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/organizations-registry-common/hcs-organizations-registry-common-service-async.wsdl" />
+    <MetadataFile FileName="hcs-base.xsd" MetadataType="Schema" ID="dca8ca9c-c669-4d95-bcc0-5d2536451a98" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-base.xsd" />
+    <MetadataFile FileName="hcs-organizations-registry-common-types.xsd" MetadataType="Schema" ID="20285c81-47c8-40d0-b611-4ab1ca66dd98" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/organizations-registry-common/hcs-organizations-registry-common-types.xsd" />
+    <MetadataFile FileName="hcs-nsi-base.xsd" MetadataType="Schema" ID="29fb3461-fae0-429e-9de8-d1bfd79688f2" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-nsi-base.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

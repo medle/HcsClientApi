@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/individual-registry-base/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="12.2.0.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="hcs-nsi-base.xsd"/>
+	<!--Физические лица (доли собственности)-->
+	<xs:element name="ID">
+		<xs:annotation>
+			<xs:documentation>Удостоверение личности</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Type" type="nsi-base:nsiRef">
+					<xs:annotation>
+						<xs:documentation>Документ, удостоверяющий личность  (НСИ 95)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Series" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Серия документа</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="45"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Number">
+					<xs:annotation>
+						<xs:documentation>Номер документа</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="45"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="IssueDate" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Дата выдачи документа</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="IndType">
+		<xs:annotation>
+			<xs:documentation>Физическое лицо</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:FIOType">
+				<xs:sequence>
+					<xs:element ref="tns:Sex" minOccurs="0"/>
+					<xs:element ref="tns:DateOfBirth" minOccurs="0"/>
+					<xs:choice>
+						<xs:element ref="tns:SNILS"/>
+						<xs:element ref="tns:ID"/>
+					</xs:choice>
+					<xs:element ref="tns:PlaceBirth" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SNILS">
+		<xs:annotation>
+			<xs:documentation>СНИЛС</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:pattern value="\d{11}"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Ind" type="tns:IndType"/>
+	<xs:element name="Surname">
+		<xs:annotation>
+			<xs:documentation>Фамилия</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="256"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="FirstName">
+		<xs:annotation>
+			<xs:documentation>Имя</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="256"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Patronymic">
+		<xs:annotation>
+			<xs:documentation>Отчество</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="256"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:complexType name="FIOType">
+		<xs:annotation>
+			<xs:documentation>ФИО</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="tns:Surname"/>
+			<xs:element ref="tns:FirstName"/>
+			<xs:element ref="tns:Patronymic" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FIOExportType">
+		<xs:annotation>
+			<xs:documentation>ФИО</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="tns:Surname" minOccurs="0"/>
+			<xs:element ref="tns:FirstName" minOccurs="0"/>
+			<xs:element ref="tns:Patronymic" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Sex">
+		<xs:annotation>
+			<xs:documentation>Пол (M- мужской, F-женский)</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="1"/>
+				<xs:enumeration value="M"/>
+				<xs:enumeration value="F"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="DateOfBirth" type="xs:date">
+		<xs:annotation>
+			<xs:documentation>Дата рождения</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PlaceBirth">
+		<xs:annotation>
+			<xs:documentation>Место рождения</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="255"/>
+				<xs:minLength value="1"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

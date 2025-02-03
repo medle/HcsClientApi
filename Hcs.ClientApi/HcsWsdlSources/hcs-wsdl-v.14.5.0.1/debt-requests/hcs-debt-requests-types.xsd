@@ -1,0 +1,1450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://dom.gosuslugi.ru/schema/integration/drs/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/drs/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="14.0.0.0">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<!--ОПЕРАЦИИ ДЛЯ ОРГАНИЗАЦИЙ, РАЗМЕЩАЮЩИХ ЗАПРОСЫ О НАЛИЧИИ ЗАДОЛЖЕННОСТИ ЗА ЖКУ-->
+	<!--Загрузка в ГИС ЖКХ запросов о наличии задолженности за ЖКУ-->
+	<xs:element name="importDRsRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт в ГИС ЖКХ запросов о наличии задолженности за ЖКУ. Доступны версии 13.1.10.1 и 14.0.0.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="action" minOccurs="1" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Операция над запросом  о наличии задолженности за ЖКУ</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:element name="requestGUID" type="base:GUIDType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Идентификатор запроса о наличии задолженности за ЖКУ.
+
+												Обязателен для операции Revoke.
+
+												Для операции Send указывается в том случае, если поставщикам ЖКУ направляется уже существующий в ГИС ЖКХ запрос</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="actionType" type="tns:DRActionType">
+										<xs:annotation>
+											<xs:documentation>Тип операции над запросом о наличии задолженности за ЖКУ.
+
+												Допустимые значения:
+												Send - Направить запрос поставщикам ЖКУ;
+												Revoke - Отозвать запрос, ранее направленный поставщикам ЖКУ.
+
+												Для операции Send должен быть указан хотя бы один из элементов requestGUID или requestData</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="requestData" type="tns:ImportDRType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Данные запроса о наличии задолженности за ЖКУ.
+
+												Указывается только для операции Send.
+
+												Если операция связана с уже существующим в ГИС ЖКХ запросом (указан элемент requestGUID), то контент элемента используется для изменения запроса перед его направлением поставщикам ЖКУ. В противном случае, контент элемента используется для создания в ГИС ЖКХ нового запроса, который направляется поставщикам ЖКУ</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importDRs_TransportGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности транспортного идентификатора в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importDRs_DRGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности подзапроса о наличии задолженности в рамках importDRsRequest</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:action/tns:requestGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--Выгрузка из ГИС ЖКХ запросов о наличии задолженности за ЖКУ-->
+	<xs:element name="exportDRsRequest">
+		<xs:annotation>
+			<xs:documentation>Экспорт из ГИС ЖКХ запросов о наличии задолженности за ЖКУ. Доступны версии 13.1.10.1 и 14.0.0.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice minOccurs="1">
+						<xs:annotation>
+							<xs:documentation>Условия отбора запросов о наличии задолженности за ЖКУ</xs:documentation>
+						</xs:annotation>
+						<xs:element name="requestGUID" type="base:GUIDType" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Идентификатор запроса о наличии задолженности за ЖКУ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="requestNumber" type="tns:RequestNumberType" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Номер запроса, присвоенный ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:annotation>
+								<xs:documentation>Условия отбора по атрибутам запроса.
+
+									Условия могут указываться в любых сочетаниях. В ответное сообщение будут включены только те запросы о задолженности, которые удовлетворяют ВСЕМ указанным условиям. Условие считается выполненным, если значение соответствующего атрибута запроса о задолженности
+
+									либо совпадает с указанным в условии значением (применимо к элементу applicantInfo);
+
+									либо совпадает с одним из указанных в условии значений (для элементов requestStatus, requestResult, houseGuid);
+
+									либо попадает в заданный временной период (для элементов, задающих временной период)</xs:documentation>
+							</xs:annotation>
+							<xs:element name="requestCreationPeriod" type="base:Period" minOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Период создания запроса в ГИС ЖКХ.
+
+										Указываемый период не должен превышать 6-ти месяцев</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="periodOfSendingRequest" type="base:Period" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Период направления запроса поставщикам ЖКУ.
+
+										Указываемый период не должен превышать 6-ти месяцев</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="periodOfResponseDate" type="base:PeriodOpen" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Период крайнего срока ответа на запрос</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="applicantInfo" type="tns:ApplicantInfoRequestType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Информация о заявителе</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:choice minOccurs="0">
+								<xs:element name="exportHMObjectGUID" type="tns:ExportHMObjectInfoType" minOccurs="0" maxOccurs="100">
+									<xs:annotation>
+										<xs:documentation>Идентификатор дома/помещения/комнаты в Реестре адресных объектов ГИС ЖКХ и Тип ОЖФ.
+Указывается для версии 14.0.0.0</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="houseGUID" type="base:GUIDType" minOccurs="0" maxOccurs="100">
+									<xs:annotation>
+										<xs:documentation>Идентификатор дома в Реестре адресных объектов ГИС ЖКХ, по которому осуществляется запрос.
+Указывается для версии 13.1.10.1</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:element name="requestStatus" type="tns:AllRequestStatusesType" minOccurs="0" maxOccurs="4">
+								<xs:annotation>
+									<xs:documentation>Статус запроса в ГИС ЖКХ.
+
+										Допустимые значения:
+										Draft - Проект;
+										Processing - В обработке;
+										Sent - Направлен поставщикам ЖКУ;
+										Processed - Получен ответ;
+										Revoked - Отозван</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="requestResult" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Результат выполнения запроса о наличии задолженности за ЖКУ (НСИ #357)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="exportRequestGUID" type="base:GUIDType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Идентификатор, используемый для экспорта 2-го и последующих блоков данных.
+
+										Если в элементе exportDRsRequest указаны условия отбора по атрибутам запроса, то экспорт запросов осуществляется блоками по 100 запросов в каждом блоке (последний блок может содержать меньшее число запросов).
+
+										Для экспорта первого блока данных элемент не указывается. Для экспорта каждого следующего блока данных в элементе должно указываться значение элемента getStateResult/ exportDRsResult/ pagedOutput/ nextRequestGUID, полученное при экспорте предыдущего блока данных</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportDRsResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта из ГИС ЖКХ запросов о наличии задолженности за ЖКУ. Доступны версии 13.1.10.1 и 14.0.0.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportDRsResult" type="tns:exportDRsResultType">
+							<xs:annotation>
+								<xs:documentation>Результат выполнения запроса на экспорт из ГИС ЖКХ запросов о наличии задолженности за ЖКУ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportDRsResultType">
+		<xs:annotation>
+			<xs:documentation>Тип для результата экспорта из ГИС ЖКХ запросов о наличии задолженности за ЖКУ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestData" type="tns:ExportDRType" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Данные запроса о наличии задолженности за ЖКУ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="notFound" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Запросы о наличии задолженности за ЖКУ, данные о которых не найдены в ГИС ЖКХ </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="requestGUID" type="base:GUIDType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Идентификатор запроса о наличии задолженности за ЖКУ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="requestNumber" type="tns:RequestNumberType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Номер запроса, присвоенный ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagedOutput" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Параметры, необходимые для  экспорта следующего блока данных (см. аннотацию элемента exportDRsRequest/ exportRequestGUID).
+
+						Заполняется, если в элементе exportDRsRequest указаны условия отбора по атрибутам запроса</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="nextRequestGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор, который необходимо указать в элементе exportDRsRequest/ exportRequestGUID для экспорта следующего блока данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="lastPage" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Признак того, что текущий экспортируемый блок является последним</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--ОПЕРАЦИИ ДЛЯ ОРГАНИЗАЦИЙ, ОТВЕЧАЮЩИХ НА ЗАПРОСЫ-->
+	<!--Выгрузка из ГИС ЖКХ подзапросов о наличии задолженности за ЖКУ, адресованных организации, и ответов организации на них-->
+	<xs:element name="exportDSRsRequest">
+		<xs:annotation>
+			<xs:documentation>Экспорт из ГИС ЖКХ подзапросов о наличии задолженности за ЖКУ, сформированных ГИС ЖКХ. Доступны версии 13.1.10.1 и 14.0.0.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:choice>
+							<xs:annotation>
+								<xs:documentation>Условия отбора подзапросов</xs:documentation>
+							</xs:annotation>
+							<xs:element name="subrequestGUID" type="base:GUIDType" maxOccurs="100">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подзапроса, сформированного ГИС ЖКХ</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="requestNumber" type="tns:RequestNumberType" maxOccurs="100">
+								<xs:annotation>
+									<xs:documentation>Номер запроса о наличии задолженности за ЖКУ, направленного в ГИС ЖКХ </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:sequence>
+								<xs:annotation>
+									<xs:documentation>Условия на атрибуты запроса / подзапроса</xs:documentation>
+								</xs:annotation>
+								<xs:element name="periodOfSendingRequest" type="base:Period" minOccurs="1">
+									<xs:annotation>
+										<xs:documentation>Период направления запроса поставщикам ЖКУ.
+											Указываемый период не должен превышать 6-ти месяцев</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:choice minOccurs="0">
+									<xs:element name="houseGUID" type="base:GUIDType" minOccurs="0" maxOccurs="100">
+										<xs:annotation>
+											<xs:documentation>Идентификатор дома в Реестре адресных объектов ГИС ЖКХ, с которым связан запрос о наличии задолженности.
+Указывается для версии 13.1.10.1</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="exportHMObjectGUID" type="tns:ExportHMObjectInfoType" minOccurs="0" maxOccurs="100">
+										<xs:annotation>
+											<xs:documentation>Идентификатор дома/помещения/комнаты в Реестре адресных объектов ГИС ЖКХ и Тип ОЖФ.
+Указывается для версии 14.0.0.0</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+								<xs:element name="requestStatus" type="tns:RequestStatusType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Статус запроса, направленного в ГИС ЖКХ.
+
+											Допустимые значения:
+											Sent - Направлен;
+											Processed - Получен ответ</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="responseStatus" type="tns:ResponseStatusType" minOccurs="0" maxOccurs="2">
+									<xs:annotation>
+										<xs:documentation>Статус ответа на подзапрос, сформированный ГИС ЖКХ.
+
+											Допустимые значения:
+											NotSent - Не отправлен;
+											Sent - Отправлен;
+											AutoGenerated - Сформирован автоматически</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="exportSubrequestGUID" type="base:GUIDType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Идентификатор, используемый для экспорта 2-го и последующих блоков данных.
+
+											Если в элементе exportDSRsRequest указаны условия отбора по атрибутам запроса/подзапроса, то экспорт подзапросов осуществляется блоками по 100 подзапросов в каждом блоке (последний блок может содержать меньшее число подзапросов).
+
+											Для экспорта первого блока данных элемент не указывается. Для экспорта каждого следующего блока данных в элементе должно указываться значение элемента getStateResult/ exportDSRsResult/ pagedOutput/ nextSubrequestGUID, полученное при экспорте предыдущего блока данных</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:choice>
+						<xs:element name="includeResponses" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Признак включения в результат сведений об ответах на запросы о задолженности по ЖКУ.
+Указывается для версии 13.1.10.1</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportDSRsResult">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта из ГИС ЖКХ подзапросов о наличии задолженности за ЖКУ, сформированных ГИС ЖКХ. Доступны версии 13.1.10.1 и 14.0.0.0</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="exportDSRsResult" type="tns:exportDSRsResultType">
+							<xs:annotation>
+								<xs:documentation>Результат выполнения запроса на экспорт подзапросов о наличии задолженности за ЖКУ, сформированных ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportDSRsResultType">
+		<xs:annotation>
+			<xs:documentation>Тип для результата экспорта из ГИС ЖКХ подзапросов о наличии задолженности за ЖКУ, сформированных ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subrequestData" type="tns:DSRType" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Данные подзапроса о наличии задолженности за ЖКУ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="notFound" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Запросы и подзапросы о наличии задолженности за ЖКУ, данные о которых не найдены в ГИС ЖКХ </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="subrequestGUID" type="base:GUIDType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Идентификатор подзапроса, сформированного ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="requestNumber" type="tns:RequestNumberType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Номер запроса о наличии задолженности за ЖКУ, направленного в ГИС ЖКХ </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pagedOutput" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Параметры, необходимые для  экспорта следующего блока данных (см. аннотацию элемента exportDSRsRequest/ exportSubrequestGUID).
+
+						Заполняется, если в элементе exportDSRsRequest указаны условия отбора по атрибутам запроса / подзапроса</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="nextSubrequestGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор, который необходимо указать в элементе exportDSRsRequest/ exportSubrequestGUID для экспорта следующего блока данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="lastPage" type="xs:boolean" fixed="true">
+							<xs:annotation>
+								<xs:documentation>Признак того, что текущий экспортируемый блок является последним</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Загрузка в ГИС ЖКХ ответов на подзапросы о наличии задолженности за ЖКУ-->
+	<xs:element name="importDSRResponsesRequest">
+		<xs:annotation>
+			<xs:documentation>Импорт в ГИС ЖКХ ответов на подзапросы о наличии задолженности за ЖКУ, сформированные ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="action" minOccurs="1" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Действие с ответом на подзапрос о наличии задолженности</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="base:TransportGUID"/>
+									<xs:element name="subrequestGUID" type="base:GUIDType">
+										<xs:annotation>
+											<xs:documentation>Идентификатор подзапроса о наличии задолженности, сформированного ГИС ЖКХ</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="actionType" type="tns:DSRResponseActionType">
+										<xs:annotation>
+											<xs:documentation>Тип операции с ответом на подзапрос.
+
+												Допустимые значения:
+												Send - Отправить ответ;
+												Revoke - Отозвать ранее отправленный ответ</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="responseData" type="tns:ImportDSRResponseType" minOccurs="0" maxOccurs="1">
+										<xs:annotation>
+											<xs:documentation>Ответ на подзапрос.
+
+												Указывается только для операции Send.
+
+												Если для подзапроса ответ уже существует в ГИС ЖКХ, то контент элемента используется для изменения ответа перед его отправкой. В противном случае, контент элемента используется для создания и отправки нового ответа</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="14.0.0.0"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+		<xs:key name="importDSRResponses_TransportGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности транспортного идентификатора в рамках запроса</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath=".//base:TransportGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+		<xs:key name="importDSRResponses_DSRGUIDKey">
+			<xs:annotation>
+				<xs:documentation>Проверка уникальности подзапроса о наличии задолженности в рамках importDSRResponsesRequest</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:action/tns:subrequestGUID"/>
+			<xs:field xpath="."/>
+		</xs:key>
+	</xs:element>
+	<!--ПОЛУЧЕНИЕ РЕЗУЛЬТАТА АСИНХРОННОГО ЗАПРОСА-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса и результатов отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:choice minOccurs="0">
+						<xs:element name="importResult" type="base:CommonResultType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Результат импорта</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="exportDRsResult" type="tns:exportDRsResultType">
+							<xs:annotation>
+								<xs:documentation>Результат выполнения запроса на экспорт из ГИС ЖКХ запросов о наличии задолженности за ЖКУ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="exportDSRsResult" type="tns:exportDSRsResultType">
+							<xs:annotation>
+								<xs:documentation>Результат выполнения запроса на экспорт подзапросов о наличии задолженности за ЖКУ, сформированных ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="base:ErrorMessage"/>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--КОМПЛЕКСНЫЕ ТИПЫ-->
+	<xs:complexType name="ApplicantInfoRequestType">
+		<xs:annotation>
+			<xs:documentation>Информация о заявителе, указываемая в параметрах запроса</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="firstName" type="tns:PersonNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Имя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lastName" type="tns:PersonNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Фамилия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="middleName" type="tns:PersonNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отчество</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="snils" type="tns:SNILSType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>СНИЛС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="document" type="tns:DocumentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Документ, удостоверяющий личность заявителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApplicantInfoType">
+		<xs:annotation>
+			<xs:documentation>Информация о заявителе</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="firstName" type="tns:PersonNameType">
+				<xs:annotation>
+					<xs:documentation>Имя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lastName" type="tns:PersonNameType">
+				<xs:annotation>
+					<xs:documentation>Фамилия</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="middleName" type="tns:PersonNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отчество</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="snils" type="tns:SNILSType">
+				<xs:annotation>
+					<xs:documentation>СНИЛС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="document" type="tns:DocumentType">
+				<xs:annotation>
+					<xs:documentation>Документ, удостоверяющий личность заявителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DebtInfoType">
+		<xs:annotation>
+			<xs:documentation>Информация о задолженности, подтвержденной судебным актом</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="person">
+				<xs:annotation>
+					<xs:documentation>Информация о лице, в отношении которого имеется задолженность</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="firstName" type="tns:PersonNameType">
+							<xs:annotation>
+								<xs:documentation>Имя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="lastName" type="tns:PersonNameType">
+							<xs:annotation>
+								<xs:documentation>Фамилия</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="middleName" type="tns:PersonNameType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Отчество</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="snils" type="tns:SNILSType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>СНИЛС</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="document" type="tns:DocumentType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Документ, удостоверяющий личность</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="document" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Документ, подтверждающий задолженность</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="type" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Тип документа, для ответа на подзапрос (НСИ 358)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="attachment" type="base:AttachmentType">
+							<xs:annotation>
+								<xs:documentation>Прикрепленный файл</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentType">
+		<xs:annotation>
+			<xs:documentation>Документ, удостоверяющий личность заявителя</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Вид документа, удостоверяющего личность (НСИ #95)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="series" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Серия</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="number">
+				<xs:annotation>
+					<xs:documentation>Номер</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DSRType">
+		<xs:annotation>
+			<xs:documentation>Данные подзапроса о наличии задолженности за ЖКУ, сформированного ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="subrequestGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор подзапроса, присвоенный в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="requestInfo">
+				<xs:annotation>
+					<xs:documentation>Информация об исходном запросе в ГИС ЖКХ о наличии задолженности за ЖКУ</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="requestGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>Идентификатор запроса в ГИС ЖКХ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="requestNumber" type="tns:RequestNumberType">
+							<xs:annotation>
+								<xs:documentation>Номер запроса</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="organization" type="tns:OrganizationInfoType">
+							<xs:annotation>
+								<xs:documentation>Организация,
+									направившая запрос</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="housingFundObject" type="tns:ExportHousingFundObjectInfoType">
+							<xs:annotation>
+								<xs:documentation>Объект жилищного фонда (ОЖФ), по которому осуществляется запрос</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="period" type="base:Period">
+							<xs:annotation>
+								<xs:documentation>Период, за который запрашивается задолженность</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="status" type="tns:RequestStatusType">
+							<xs:annotation>
+								<xs:documentation>Статус запроса.
+
+									Допустимые значения:
+									Sent - Направлен
+									Processed - Получен ответ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="sentDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата направления запроса</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="responseDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Крайний срок ответа на запрос</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="executorInfo" type="tns:ExecutorInfoType">
+							<xs:annotation>
+								<xs:documentation>Информация о сотруднике, сформировавшем запрос</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="responseStatus" type="tns:ResponseStatusType">
+				<xs:annotation>
+					<xs:documentation>Статус ответа на подзапрос о наличии задолженности за ЖКУ.
+
+						Допустимые значения:
+						NotSent - Не отправлен
+						Sent - Отправлен
+						AutoGenerated - Сформирован автоматически</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="responseData" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ответ на подзапрос</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="hasDebt" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Признак наличия задолженности, подтвержденной судебным актом</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="debtInfo" type="tns:ExportDebtInfoType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Информация о непогашенной задолженности, подтвержденной судебным актом</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="additionalFile" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Дополнительный файл</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="description" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Дополнительная информация</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="1000"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="executorInfo" type="tns:ExecutorInfoType">
+							<xs:annotation>
+								<xs:documentation>Информация о сотруднике, сформировавшем ответ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExecutorInfoType">
+		<xs:annotation>
+			<xs:documentation>Информация об исполнителе</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор исполнителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fio" type="tns:PersonNameType">
+				<xs:annotation>
+					<xs:documentation>ФИО Исполнителя</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportDRType">
+		<xs:annotation>
+			<xs:documentation>Данные запроса о наличии задолженности за ЖКУ для экспорта из ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="requestGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор запроса, присвоенный в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="requestNumber" type="tns:RequestNumberType">
+				<xs:annotation>
+					<xs:documentation>Номер запроса, присвоенный в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="applicantInfo" type="tns:ApplicantInfoType">
+				<xs:annotation>
+					<xs:documentation>Информация о заявителе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="housingFundObject" type="tns:ExportHousingFundObjectInfoType">
+				<xs:annotation>
+					<xs:documentation>Сведения об объекте жилищного фонда (ОЖФ), по которому осуществляется запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="period" type="base:Period" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Период, за который запрашивается задолженность</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="organization" type="tns:OrganizationInfoType">
+				<xs:annotation>
+					<xs:documentation>Организация,
+						сформировавшая запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="executorInfo" type="tns:ExecutorInfoType">
+				<xs:annotation>
+					<xs:documentation>Информация о сотруднике, сформировавшем запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="status" type="tns:AllRequestStatusesType">
+				<xs:annotation>
+					<xs:documentation>Статус запроса в ГИС ЖКХ.
+
+						Допустимые значения:
+						Draft - Проект;
+						Processing - В обработке;
+						Sent - Направлен поставщикам ЖКУ;
+						Processed - Получен ответ;
+						Revoked - Отозван</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="result" type="nsi-base:nsiRef">
+				<xs:annotation>
+					<xs:documentation>Результат выполнения запроса.
+
+						Допускаются любые значения из справочника ГИС ЖКХ "Результат запроса о наличии или отсутствии
+						задолженности за ЖКУ" (НСИ #345). Aктуальными
+						являются следующие значения:
+						1 - Запрос не отправлен
+						2 - Запрос ожидает ответа
+						3 - Имеется информация о задолженности
+						4 - Задолженности нет
+						5 - Отсутствует размещенная информация в ГИС ЖКХ
+						6 - Информация о задолженности отсутствует
+						7 - Информация о задолженности не подтверждена поставщиком</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="creationDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата создания запроса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sentDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата направления запроса поставщикам ЖКУ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="responseDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Крайний срок ответа на запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="subrequest" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Запросы организациям, предоставляющим ЖКУ</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="organization" type="tns:OrganizationInfoType">
+							<xs:annotation>
+								<xs:documentation>Организация,
+									предоставляющая ЖКУ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="response" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Ответ организации</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="type" type="tns:ResponseType">
+										<xs:annotation>
+											<xs:documentation>Способ формирования ответа.
+
+												Допустимые значения:
+												Provided - Предоставлен организацией
+												AutoGenerated - Сформирован автоматически</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="hasDebt" type="xs:boolean" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Признак наличия задолженности, подтвержденной судебным актом</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="debtInfo" type="tns:ExportDebtInfoType" minOccurs="0" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Информация о непогашенной задолженности, подтвержденной судебным актом</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="additionalFile" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Дополнительный файл</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="description" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Дополнительная информация</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="1000"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="executorInfo" type="tns:ExecutorInfoType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Информация о сотруднике, сформировавшем ответ</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportHousingFundObjectInfoType">
+		<xs:annotation>
+			<xs:documentation>Экспортируемые сведения об объекте жилищного фонда (ОЖФ), по которому осуществляется запрос</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>Заполняется для запросов, направленных по версии 13.1.10.1</xs:documentation>
+					</xs:annotation>
+					<xs:element name="houseGUID" type="base:GUIDType">
+						<xs:annotation>
+							<xs:documentation>Идентификатор дома (либо в Реестре адресных объектов ГИС ЖКХ, либо в справочнике ФИАС) </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="addressDetails" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Дополнительная информация об ОЖФ (номер квартиры / помещения, комнаты, блока жилого дома).
+
+Обязателен для ОЖФ, имеющих тип многоквартирный дом или жилой дом блокированной застройки. Не указывается для ОЖФ, имеющих тип жилой дом</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="255"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+				<xs:sequence>
+					<xs:annotation>
+						<xs:documentation>Заполняется для запросов, направленных по версии 14.0.0.0</xs:documentation>
+					</xs:annotation>
+					<xs:element name="HMobjectGUID" type="base:GUIDType">
+						<xs:annotation>
+							<xs:documentation>Идентификатор дома/помещения/комнаты в Реестре адресных объектов ГИС ЖКХ.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="adressType" type="tns:AdressType">
+						<xs:annotation>
+							<xs:documentation>Тип объекта.
+						Возможные значения:
+						Appartment - Помещение/блок,
+						Room - Комната,
+						House - Жилой дом
+						Заполняется только для новой версии</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+			<xs:sequence>
+				<xs:element name="fiasHouseGUID" type="base:GUIDType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Глобальный уникальный идентификатор дома по ФИАС</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="address">
+					<xs:annotation>
+						<xs:documentation>Адресная строка</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="4000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImportDRType">
+		<xs:annotation>
+			<xs:documentation>Данные запроса о наличии задолженности за ЖКУ для импорта в ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="applicantInfo" type="tns:ApplicantInfoType">
+				<xs:annotation>
+					<xs:documentation>Информация о заявителе</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="housingFundObject" type="tns:ImportHousingFundObjectInfoType">
+				<xs:annotation>
+					<xs:documentation>Сведения об объекте жилищного фонда (ОЖФ), по которому осуществляется запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="executorGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор сотрудника, сформировавшего запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImportDSRResponseType">
+		<xs:annotation>
+			<xs:documentation>Данные подзапроса о наличии задолженности за ЖКУ для импорта в ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="hasDebt" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Признак наличия задолженности, подтвержденной судебным актом</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="additionalFile" type="base:AttachmentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Дополнительный файл.
+
+						Может быть указан, только если hasDebt=TRUE</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительная информация</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="executorGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор сотрудника, сформировавшего ответ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Информация о непогашенной задолженности, подтвержденной судебным актом.
+
+Может быть указан, только если hasDebt=TRUE.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="debtInfo" type="tns:DebtInfoType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Информация о непогашенной задолженности, подтвержденной судебным актом. Указывается, если ответ направляется без учета реестра сведений о задолженности.
+
+Может быть указан, только если hasDebt=TRUE. В этом случае элемент обязателен</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="debtGUID" type="base:GUIDType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Идентификатор записи реестра сведений о задолженности. Указывается при направлении ответа с учетом реестра сведений о задолженности. Может быть указан, только если hasDebt=TRUE. Необязателен для заполнения</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrganizationInfoType">
+		<xs:annotation>
+			<xs:documentation>Сведения об организации</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="orgRootGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Корневой идентификатор организации (в Реестре организаций ГИС ЖКХ)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Наименование организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Телефон организации</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActType">
+		<xs:annotation>
+			<xs:documentation>блок судебного акта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="number">
+				<xs:annotation>
+					<xs:documentation>Номер судебного акта</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="date" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата вступления в силу судебного акта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CancelledAddressType">
+		<xs:annotation>
+			<xs:documentation>Информация об аннулированном объекте жилищного фонда, указанном в записи в реестре сведений о задолженности.
+				Запролняется, если судебный акт ссылается на аннулированный в ГИС ЖКХ объект жилищного фонда.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="cancelledAddressText">
+				<xs:annotation>
+					<xs:documentation>Адрес аннулированного объекта жилищного фонда.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="4000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="fiasHouseGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Глобальный уникальный идентификатор аннулированного дома по ФИАС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HCSHouseGUID" type="base:GUIDType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификационный код аннулированного дома в ГИС ЖКХ.Адреса объектов, добавленных по заявкам на добавление в ФИАС, выгружаются в открытой части ГИС ЖКХ в разделе «Регламенты и инструкции».</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HMobjectGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Глобальный уникальный идентификатор аннулированного объекта жилищного фонда в Реестре адресных объектов ГИС ЖКХ.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportDebtInfoType">
+		<xs:annotation>
+			<xs:documentation>Информация о задолженности, подтвержденной судебным актом для экспорта ГИС ЖКХ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="person">
+				<xs:annotation>
+					<xs:documentation>Информация о лице, в отношении которого имеется задолженность</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="firstName" type="tns:PersonNameType">
+							<xs:annotation>
+								<xs:documentation>Имя</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="lastName" type="tns:PersonNameType">
+							<xs:annotation>
+								<xs:documentation>Фамилия</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="middleName" type="tns:PersonNameType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Отчество</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="snils" type="tns:SNILSType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>СНИЛС</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="document" type="tns:DocumentType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Документ, удостоверяющий личность</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="document" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Документ, подтверждающий задолженность</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="type" type="nsi-base:nsiRef">
+							<xs:annotation>
+								<xs:documentation>Тип документа, для ответа на подзапрос (НСИ 358)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="attachment" type="base:AttachmentType">
+							<xs:annotation>
+								<xs:documentation>Прикрепленный файл</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="debtGUID" type="base:GUIDType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Идентификатор записи в реестре сведений о задолженности.
+
+Выгружается, если запрос на экспорт отправлен по новой версии (14.0.0.0)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="actType" type="tns:ActType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Информация о судебном акте.
+									Обязательно для заполнения, если тип документа = судебный акт (заполняется для новой версии ответа на запрос).
+
+Выгружается, если запрос на экспорт отправлен по новой версии (14.0.0.0)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="cancelledAddress" type="tns:CancelledAddressType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Информация об аннулированном объекте жилищного фонда, указанном в записи в реестре сведений о задолженности.
+						Запролняется, если судебный акт ссылается на аннулированный в ГИС ЖКХ объект жилищного фонда.
+
+Выгружается, если запрос на экспорт отправлен по новой версии (14.0.0.0)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExportHMObjectInfoType">
+		<xs:annotation>
+			<xs:documentation>Сведения об объекте жилищного фонда (ОЖФ) для запроса экспорта запросов/подзапросов (версия 14.0.0.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="HMobjectGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор дома/помещения/комнаты в Реестре адресных объектов ГИС ЖКХ.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="adressType" type="tns:AdressType">
+				<xs:annotation>
+					<xs:documentation>Тип объекта.
+						Возможные значения:
+						Apartment - Помещение/блок,
+						Room - Комната,
+						House - Жилой дом
+			</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImportHousingFundObjectInfoType">
+		<xs:annotation>
+			<xs:documentation>Импортируемые сведения об объекте жилищного фонда (ОЖФ) в запросе</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>Указывается при направлении запроса по версии 13.1.10.1</xs:documentation>
+				</xs:annotation>
+				<xs:element name="houseGUID" type="base:GUIDType">
+					<xs:annotation>
+						<xs:documentation>Идентификатор дома (либо в Реестре адресных объектов ГИС ЖКХ, либо в справочнике ФИАС)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="addressDetails" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Дополнительная информация об ОЖФ (номер квартиры / помещения, комнаты, блока жилого дома).
+
+Обязателен для ОЖФ, имеющих тип многоквартирный дом или жилой дом блокированной застройки. Не указывается для ОЖФ, имеющих тип жилой дом</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="255"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Указывается при направлении запроса по версии 14.0.0.0. </xs:documentation>
+				</xs:annotation>
+				<xs:sequence>
+					<xs:element name="HMObjectGUID" type="base:GUIDType">
+						<xs:annotation>
+							<xs:documentation>Идентификатор объекта жилищного фонда в Реестре адресных объектов ГИС ЖКХ. Обязателен для заполнения для всех типов, кроме жилой дом. Если тип = жилой дом. то может быть заполнен, либо HMObjectGUID, либо fiasHouseGUID</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AddressType" type="tns:AdressType">
+						<xs:annotation>
+							<xs:documentation>Тип объекта.
+						Возможные значения:
+						Apartment - Помещение/блок,
+						Room - Комната,
+						House - Жилой дом
+			</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="fiasHouseGUID" type="base:GUIDType">
+					<xs:annotation>
+						<xs:documentation>Идентификатор ФИАС. Может быть заполнен, если тип объекта = жилой дом</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:choice>
+	</xs:complexType>
+	<!--ПРОСТЫЕ ТИПЫ-->
+	<xs:simpleType name="AllRequestStatusesType">
+		<xs:annotation>
+			<xs:documentation>Все статусы запроса в ГИС ЖКХ.
+ 
+				Допустимые значения:
+				Draft - Проект;
+				Processing - В обработке;
+				Sent - Направлен поставщикам ЖКУ;
+				Processed - Получен ответ;
+				Revoked - Отозван</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Draft"/>
+			<xs:enumeration value="Processing"/>
+			<xs:enumeration value="Sent"/>
+			<xs:enumeration value="Processed"/>
+			<xs:enumeration value="Revoked"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DRActionType">
+		<xs:annotation>
+			<xs:documentation>Типы операций с запросами о наличии задолженности за ЖКУ.
+
+				Допустимые значения:
+				Send - Направить запрос поставщикам ЖКУ;
+				Revoke - Отозвать запрос, ранее направленный поставщикам ЖКУ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Send"/>
+			<xs:enumeration value="Revoke"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DSRResponseActionType">
+		<xs:annotation>
+			<xs:documentation>Типы операций с ответами на подзапросы о наличии задолженности за ЖКУ.
+
+				Допустимые значения:
+				Send - Отправить ответ;
+				Revoke - Отозвать ранее отправленный ответ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Send"/>
+			<xs:enumeration value="Revoke"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PersonNameType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип для ввода ФИО</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RequestNumberType">
+		<xs:annotation>
+			<xs:documentation>Скалярный тип для номера запроса</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RequestStatusType">
+		<xs:annotation>
+			<xs:documentation>Статус запроса, направленного в ГИС ЖКХ.
+
+				Допустимые значения:
+				Sent - Направлен;
+				Processed - Получен ответ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Sent"/>
+			<xs:enumeration value="Processed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ResponseStatusType">
+		<xs:annotation>
+			<xs:documentation>Статус ответа на подзапрос, сформированный ГИС ЖКХ.
+
+				Допустимые значения:
+				NotSent - Не отправлен;
+				Sent - Отправлен;
+				AutoGenerated - Сформирован автоматически</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NotSent"/>
+			<xs:enumeration value="Sent"/>
+			<xs:enumeration value="AutoGenerated"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ResponseType">
+		<xs:annotation>
+			<xs:documentation>Способ формирования ответа на подзапрос.
+
+				Допустимые значения:
+				Provided - Предоставлен организацией;
+				AutoGenerated - Сформирован автоматически</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Provided"/>
+			<xs:enumeration value="AutoGenerated"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SNILSType">
+		<xs:annotation>
+			<xs:documentation>Тип для ввода СНИЛС</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{11}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AdressType">
+		<xs:annotation>
+			<xs:documentation>Тип ОЖФ. Возможные значения: Apartment - Помещение, Room - Комната, House - Жилой дом, HouseBlock - Блок в жилом доме</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="36"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

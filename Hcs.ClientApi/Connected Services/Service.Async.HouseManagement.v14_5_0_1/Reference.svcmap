@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="d2604182-cced-404a-b61a-bb3caa1ed48e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="D:\NetFX\Eso.System\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\house-management\hcs-house-management-service-async.wsdl" Protocol="file" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="hcs-bills-base.xsd" MetadataType="Schema" ID="bc2f4b93-3f1a-49c0-8053-729ec8bdf484" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-bills-base.xsd" />
+    <MetadataFile FileName="hcs-nsi-base.xsd" MetadataType="Schema" ID="56894500-df81-48f9-b338-8e978fe7b0a9" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-nsi-base.xsd" />
+    <MetadataFile FileName="hcs-organizations-registry-base.xsd" MetadataType="Schema" ID="88b73ec4-4a5d-473c-ba32-ba2adc0b0bbb" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-organizations-registry-base.xsd" />
+    <MetadataFile FileName="hcs-account-base.xsd" MetadataType="Schema" ID="cb071b01-86e9-405f-b6b9-d47765153749" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-account-base.xsd" />
+    <MetadataFile FileName="hcs-organizations-base.xsd" MetadataType="Schema" ID="f4b8e438-a9ad-42ac-9002-300d438b3095" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-organizations-base.xsd" />
+    <MetadataFile FileName="hcs-house-management-service-async.wsdl" MetadataType="Wsdl" ID="962f4684-7694-4563-812d-44ed4481c0ad" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/house-management/hcs-house-management-service-async.wsdl" />
+    <MetadataFile FileName="xmldsig-core-schema.xsd" MetadataType="Schema" ID="f8f1f7ca-d7d6-45d0-9a09-ab927a63b7ca" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/xmldsig-core-schema.xsd" />
+    <MetadataFile FileName="hcs-house-management-types.xsd" MetadataType="Schema" ID="a61b00d4-db73-466d-843e-f5337c24c5a9" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/house-management/hcs-house-management-types.xsd" />
+    <MetadataFile FileName="hcs-individual-registry-base.xsd" MetadataType="Schema" ID="ed697735-838c-42df-b1ff-308ad7dfc5f6" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-individual-registry-base.xsd" />
+    <MetadataFile FileName="hcs-metering-device-base.xsd" MetadataType="Schema" ID="951d345d-1ca2-4bf3-93dc-66fa2e159e63" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-metering-device-base.xsd" />
+    <MetadataFile FileName="hcs-premises-base.xsd" MetadataType="Schema" ID="53109acb-8a38-44a9-abd4-6f2307cf66aa" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-premises-base.xsd" />
+    <MetadataFile FileName="hcs-base.xsd" MetadataType="Schema" ID="eea24b87-21d2-4bd5-805d-22e39036eb54" SourceId="1" SourceUrl="file:///D:/NetFX/Eso.System/Hcs.ClientApi/HcsWsdlSources/hcs-wsdl-v.14.5.0.1/lib/hcs-base.xsd" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

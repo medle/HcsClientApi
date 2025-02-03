@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://dom.gosuslugi.ru/schema/integration/bills-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/bills-base/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="12.2.2.10">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="hcs-base.xsd"/>
+	<!--Начисления-->
+	<xs:simpleType name="MoneyType">
+		<xs:annotation>
+			<xs:documentation>Сумма</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="20"/>
+			<xs:fractionDigits value="2"/>
+			<xs:pattern value="\d+(\.\d{2})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MoneyKopeckPositiveType">
+		<xs:annotation>
+			<xs:documentation>Неотрицательная сумма</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="20"/>
+			<xs:minInclusive value="0"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MoneyKopeckType">
+		<xs:annotation>
+			<xs:documentation>Сумма</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="20"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SmallMoneyPositiveType">
+		<xs:annotation>
+			<xs:documentation>Неотрицательная маленькая сумма</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:minInclusive value="0"/>
+			<xs:fractionDigits value="2"/>
+			<xs:pattern value="\d+(\.\d{2})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SmallMoneyType">
+		<xs:annotation>
+			<xs:documentation>Маленькая сумма</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="2"/>
+			<xs:pattern value="[+,-]?\d+(\.\d{2})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MoneyPositiveType">
+		<xs:annotation>
+			<xs:documentation>Неотрицательная сумма</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="20"/>
+			<xs:minInclusive value="0"/>
+			<xs:fractionDigits value="2"/>
+			<xs:pattern value="\d+(\.\d{2})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AmountType">
+		<xs:annotation>
+			<xs:documentation>Сумма в копейках</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+	<xs:element name="PaymentDocumentNumber">
+		<xs:annotation>
+			<xs:documentation>Номер платежного документа, по которому внесена плата, присвоенный такому документу исполнителем в целях осуществления расчетов по внесению платы</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="1"/>
+				<xs:maxLength value="30"/>
+				<xs:pattern value="(.*)([0-9а-яА-Яa-zA-Z]+)(.*)"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="PaymentDocumentID">
+		<xs:annotation>
+			<xs:documentation>Идентификатор платежного документа</xs:documentation>
+		</xs:annotation>
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:length value="18"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

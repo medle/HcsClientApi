@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://dom.gosuslugi.ru/schema/integration/organizations-registry-common/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://dom.gosuslugi.ru/schema/integration/base/" xmlns:organizations-base="http://dom.gosuslugi.ru/schema/integration/organizations-base/" xmlns:premises-base="http://dom.gosuslugi.ru/schema/integration/premises-base/" xmlns:nsi-base="http://dom.gosuslugi.ru/schema/integration/nsi-base/" xmlns:organizations-registry-base="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" targetNamespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-common/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="13.1.8.1">
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/base/" schemaLocation="../lib/hcs-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-base/" schemaLocation="../lib/hcs-organizations-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/premises-base/" schemaLocation="../lib/hcs-premises-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/nsi-base/" schemaLocation="../lib/hcs-nsi-base.xsd"/>
+	<xs:import namespace="http://dom.gosuslugi.ru/schema/integration/organizations-registry-base/" schemaLocation="../lib/hcs-organizations-registry-base.xsd"/>
+	<!--Экспорт из реестра организаций-->
+	<xs:element name="exportOrgRegistryRequest">
+		<xs:annotation>
+			<xs:documentation>Экспорт сведений из реестра организаций</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="SearchCriteria" maxOccurs="100">
+							<xs:annotation>
+								<xs:documentation>Критерий поиска организаций.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:choice>
+										<xs:choice>
+											<xs:annotation>
+												<xs:documentation>Поиск по реквизитам.</xs:documentation>
+											</xs:annotation>
+											<xs:element ref="organizations-base:OGRNIP"/>
+											<xs:sequence>
+												<xs:element ref="organizations-base:OGRN"/>
+												<xs:element ref="organizations-base:KPP" minOccurs="0"/>
+											</xs:sequence>
+											<xs:element ref="organizations-base:NZA"/>
+										</xs:choice>
+										<xs:element ref="organizations-registry-base:orgVersionGUID"/>
+										<xs:element ref="organizations-registry-base:orgRootEntityGUID"/>
+										<xs:element name="orgPPAGUID" type="base:GUIDType">
+											<xs:annotation>
+												<xs:documentation>Идентификатор зарегистрированной организации</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+									<xs:element name="isRegistered" type="xs:boolean" fixed="true" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Поиск среди организаций, имеющих личных кабинет</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="lastEditingDateFrom" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Время последнего изменения (от)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="10.0.2.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportOrgRegistryResultType">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта сведений из реестра организаций</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="organizations-registry-base:orgRootEntityGUID"/>
+			<xs:element name="OrgVersion">
+				<xs:annotation>
+					<xs:documentation>Версия организации в реестре организаций</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="organizations-registry-base:orgVersionGUID"/>
+						<xs:element name="lastEditingDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Дата последнего изменения</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IsActual" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Признак актуальности записи</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="Legal" type="organizations-registry-base:LegalType">
+								<xs:annotation>
+									<xs:documentation>Юридическое лицо</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Subsidiary">
+								<xs:annotation>
+									<xs:documentation>Обособленное подразделение</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="organizations-registry-base:SubsidiaryType">
+											<xs:sequence>
+												<xs:element name="StatusVersion">
+													<xs:annotation>
+														<xs:documentation>Статус версии </xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="ParentOrg">
+													<xs:annotation>
+														<xs:documentation>Информация о головной организации</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element ref="organizations-registry-base:RegOrgVersion"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Entrp" type="organizations-registry-base:EntpsType">
+								<xs:annotation>
+									<xs:documentation>Индивидуальный предприниматель</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ForeignBranch" type="organizations-registry-base:ForeignBranchType">
+								<xs:annotation>
+									<xs:documentation>ФПИЮЛ (Филиал или представительство иностранного юридического лица)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="registryOrganizationStatus" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Статус:
+(P)UBLISHED - опубликована в одном из документов в рамках раскрытия</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="P"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="base:orgPPAGUID" minOccurs="0"/>
+			<xs:element name="organizationRoles" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Полномочие организации (НСИ №20)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="isRegistered" type="xs:boolean" fixed="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Зарегистрирована в ГИС ЖКХ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Экспорт сведений о поставщиках информации ИС-->
+	<xs:element name="exportDataProviderRequest">
+		<xs:annotation>
+			<xs:documentation>Экспорт сведений о поставщиках информации ИС. В качестве поискового параметра используется Идентификатор ИС из RequestHeader</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:sequence>
+						<xs:element name="IsActual" type="xs:boolean" fixed="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Выгрузить только активных поставщиков данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="10.0.2.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportDataProviderResultType">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта сведений о поставщиках информации ИС</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DataProviderGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор поставщика данных</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsActual" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Статус связи: 1 - активен, 0- отключен</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="organizations-registry-base:RegOrg"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Экспорт сведений о делегированных правах-->
+	<xs:element name="exportDelegatedAccessRequest">
+		<xs:annotation>
+			<xs:documentation>Экспорт сведений о делегированных правах</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice>
+						<xs:element name="AccessRequestGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>ИД заявки</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:sequence>
+							<xs:element name="Page" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Страница выборки. Возвращается по 100 элементов.</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:minInclusive value="1"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Status" type="tns:AccessRequestStatus" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Статус заявки:
+Created – Создана
+Accepted – Принята
+Declined - Отклонена
+Revoked - Отозвана
+Annuled - Аннулирована
+Closed - Закрыта
+Preset– Предзаполнена
+Waiting_approval - На утверждении</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="exportDelegatedAccessType">
+		<xs:annotation>
+			<xs:documentation>Результат экспорта сведений о делегированных правах</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ParentOrg" type="organizations-registry-base:RegOrgType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация о головной организации (для обособленных подразделений)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="base:orgPPAGUID"/>
+			<xs:element ref="organizations-registry-base:RegOrg"/>
+			<xs:element name="AccessRequest" type="tns:AccessRequest" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Заявка на доступ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="exportObjectsDelegatedAccessRequest">
+		<xs:annotation>
+			<xs:documentation>Экспорт сведений об объектах из заявок на делегирование прав</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice minOccurs="0">
+						<xs:element name="AccessRightGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>ИД делегированного права.
+Можно получить в результате выполнения exportDelegatedAccess</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Page">
+							<xs:annotation>
+								<xs:documentation>Страница выборки. Возвращается по 1000 элементов.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exportTerritoryDelegatedAccessRequest">
+		<xs:annotation>
+			<xs:documentation>Экспорт сведений о территориях из заявок на делегирование прав</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseType">
+					<xs:choice minOccurs="0">
+						<xs:element name="AccessRightGUID" type="base:GUIDType" maxOccurs="1000">
+							<xs:annotation>
+								<xs:documentation>ИД делегированного права.
+Можно получить в результате выполнения exportDelegatedAccess</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Page">
+							<xs:annotation>
+								<xs:documentation>Страница выборки. Возвращается по 1000 элементов.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute ref="base:version" use="required" fixed="11.2.0.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Асинхронные мтоды-->
+	<xs:element name="getStateResult">
+		<xs:annotation>
+			<xs:documentation>Возврат статуса отправленного сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="base:BaseAsyncResponseType">
+					<xs:sequence minOccurs="0">
+						<xs:choice minOccurs="0">
+							<xs:element ref="base:ErrorMessage"/>
+							<xs:element name="ImportResult" type="base:CommonResultType" maxOccurs="unbounded"/>
+							<xs:element name="exportOrgRegistryResult" type="tns:exportOrgRegistryResultType" maxOccurs="unbounded"/>
+							<xs:element name="exportDataProviderResult" type="tns:exportDataProviderResultType" maxOccurs="unbounded"/>
+							<xs:element name="exportDelegatedAccessResult" type="tns:exportDelegatedAccessType" maxOccurs="unbounded"/>
+							<xs:element name="exportObjectsDelegatedAccessResult" type="tns:ObjectsDelegatedAccessRightType" maxOccurs="unbounded"/>
+							<xs:element name="exportTerritoryDelegatedAccess" type="tns:TerritoryDelegatedAccessRightType" maxOccurs="unbounded"/>
+						</xs:choice>
+						<xs:element name="IsNextPage" type="xs:boolean" fixed="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Признак того, что выгружены не все данные. Необходимо выполнить еще один запрос, увеличив Page на 1.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute ref="base:version" use="required" fixed="10.0.2.1"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Типы данных-->
+	<xs:complexType name="AccessRequest">
+		<xs:annotation>
+			<xs:documentation>Заявка на предоставление доступа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AccessRequestGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>ИД заявки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Type" type="tns:AccessRequestType">
+				<xs:annotation>
+					<xs:documentation>Тип заявки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ApplicationDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата подачи</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StartDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Дата начала</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата окончания</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="tns:AccessRequestStatus">
+				<xs:annotation>
+					<xs:documentation>Статус заявки:
+Created – Создана
+Accepted – Принята
+Declined - Отклонена
+Revoked - Отозвана
+Annuled - Аннулирована
+Closed - Закрыта
+Preset– Предзаполнена
+Waiting_approval - На утверждении</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StatusChangeDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата статуса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StatusReason" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Причина статуса</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DelegatedAccessRight" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Делегированное право доступа</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AccessRightGUID" type="base:GUIDType">
+							<xs:annotation>
+								<xs:documentation>ИД делегированного права</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TerritoryInfo">
+							<xs:annotation>
+								<xs:documentation>Территориальная принадлежность</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="AllTerritories" type="xs:boolean" fixed="true">
+										<xs:annotation>
+											<xs:documentation>Для всех территорий</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ExistListOfTerritory" type="xs:boolean" fixed="true">
+										<xs:annotation>
+											<xs:documentation>если = "true", то по виду информации имеется список территорий, по которым предоставлен доступ. Для получения списка можно воспользоваться запросом exportTerritoryDelegatedAccess</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ObjectInfo">
+							<xs:annotation>
+								<xs:documentation>Объекты доступа</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="AllObjects" type="xs:boolean" fixed="true">
+										<xs:annotation>
+											<xs:documentation>Для всех объектов</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ExistListOfObjects" type="xs:boolean" fixed="true">
+										<xs:annotation>
+											<xs:documentation>если = "true", то по виду информации имеется список объектов, по которым предоставлен доступ. Для получения списка можно воспользоваться запросом exportObjectsDelegatedAccess</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="IsActual" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Признак актуальности</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InformationType" type="nsi-base:nsiRef" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Код из справочника 291 - "Виды информации"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AccessRequestType">
+		<xs:annotation>
+			<xs:documentation>Тип заявки на предоставление доступа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ForInformationSystemOperator">
+				<xs:annotation>
+					<xs:documentation>Для оператора информационной системы
+</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ForCalculationCenter">
+				<xs:annotation>
+					<xs:documentation>Для расчетного центра</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AccessRequestStatus">
+		<xs:annotation>
+			<xs:documentation>Статус заявки на предоставление доступа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Created">
+				<xs:annotation>
+					<xs:documentation>Создана</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Accepted">
+				<xs:annotation>
+					<xs:documentation>Принята</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Declined"/>
+			<xs:enumeration value="Revoked">
+				<xs:annotation>
+					<xs:documentation>Отозвана</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Annulled"/>
+			<xs:enumeration value="Closed"/>
+			<xs:enumeration value="Preset"/>
+			<xs:enumeration value="Waiting_approval"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="RegOrgPPA" type="tns:RegOrgPPAType"/>
+	<xs:complexType name="RegOrgPPAType">
+		<xs:sequence>
+			<xs:element ref="base:orgPPAGUID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ObjectsDelegatedAccessRightType">
+		<xs:annotation>
+			<xs:documentation>Сведения об объектах из заявок на делегирование прав</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AccessRightGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>ИД делегированного права.
+Можно получить в результате выполнения exportDelegatedAccess</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="ObjectInfo" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Объект доступа</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ObjectGUID" type="base:GUIDType">
+								<xs:annotation>
+									<xs:documentation>Перечень объектов</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Type" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Тип объекта</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="1000"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AllObjects" type="xs:boolean" fixed="true">
+					<xs:annotation>
+						<xs:documentation>Для всех объектов</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TerritoryDelegatedAccessRightType">
+		<xs:annotation>
+			<xs:documentation>Сведения о территориях из заявок на делегирование прав</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AccessRightGUID" type="base:GUIDType">
+				<xs:annotation>
+					<xs:documentation>ИД делегированного права.
+Можно получить в результате выполнения exportDelegatedAccess</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="OKTMO" type="base:OKTMORefType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Перечень территорий действия</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Region" type="nsi-base:nsiRef" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Перечень субъектов РФ, на которых дейсвтуют права.  (Ссылка на справочник Субъекты РФ). НСИ 237</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AllTerritories" type="xs:boolean" fixed="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Для всех территорий</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
