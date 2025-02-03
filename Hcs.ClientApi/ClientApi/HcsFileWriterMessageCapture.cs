@@ -13,7 +13,6 @@ namespace Hcs.ClientApi
    /// </summary>
    public class HcsFileWriterMessageCapture : IHcsMessageCapture
    {
-        private int index;
         private string directory;
         private IHcsLogger logger;
 
@@ -29,11 +28,18 @@ namespace Hcs.ClientApi
 
         public void CaptureMessage(bool sent, string body)
         {
-            index += 1;
-            string fileName = index.ToString("D3") + "_" + (sent ? "message" : "response") + ".xml";
-            if (!string.IsNullOrEmpty(directory)) {
-                fileName = System.IO.Path.Combine(directory, fileName);
-            }
+            int index = 0;
+            int maxIndex = 1000000;
+            string fileName;
+
+            do {
+                index += 1;
+                if (index > maxIndex) throw new HcsException("Превышен максимум индекса файлов захвата сообщений");
+                fileName = index.ToString("D3") + "_" + (sent ? "message" : "response") + ".xml";
+                if (!string.IsNullOrEmpty(directory)) {
+                    fileName = System.IO.Path.Combine(directory, fileName);
+                }
+            } while (System.IO.File.Exists(fileName));
 
             if(logger != null) logger.WriteLine($"Writing message file: {fileName}...");
             System.IO.File.WriteAllText(fileName, body, Encoding.UTF8);

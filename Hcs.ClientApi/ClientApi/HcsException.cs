@@ -26,15 +26,7 @@ namespace Hcs.ClientApi
 
         public static HcsException FindHcsException(Exception e)
         {
-            var hcsException = e as HcsException;
-            if (hcsException != null) return hcsException;
-
-            var aggregate = e as AggregateException;
-            if (aggregate != null) {
-                return aggregate.InnerExceptions.OfType<HcsException>().FirstOrDefault();
-            }
-
-            return null;
+            return HcsUtil.EnumerateInnerExceptions(e).OfType<HcsException>().FirstOrDefault();
         }
-    }
+    }       
 }

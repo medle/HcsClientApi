@@ -1,14 +1,22 @@
 ﻿
+# Искать документ типа:
+# Регламент и форматы информационного взаимодействия внешних информационных систем с ГИС ЖКХ (текущие форматы v.13.2.3.3)
+https://dom.gosuslugi.ru/#!/regulations?userCtgrCode=1
+
 Чтобы сгенирировать .cs определения классов SOAP в проекте:
-Project\Connected Services\Добавить ссылку на службу...
+Project\Connected Services\Add service reference...
 
-В поле "Адрес" укажите *полный путь* к файлу
-  hcs-house-management-service-async.wsdl
+В поле "Адрес" укажите *полный путь* к файлу, например:
+  D:\NetFX\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\debt-requests\hcs-debt-requests-service-async.wsdl
+  D:\NetFX\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\house-management\hcs-house-management-service-async.wsdl
+  D:\NetFX\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\device-metering\hcs-device-metering-service-async.wsdl
+  D:\NetFX\Hcs.ClientApi\HcsWsdlSources\hcs-wsdl-v.14.5.0.1\organizations-registry-common\hcs-organizations-registry-common-service-async.wsdl
 
-Нажмите "Перейти"
+Нажмите "Перейти" или "Go"
+Если визникают ошибки разбора файла смотрите Error Details и в файле пути к подчиненым файлам xsd.
 
-В поле "Пространство имен" укажите:
-  Service.Async.HouseManagement.v13_1_10_1;
+В поле "Пространство имен" укажите, например:
+  Service.Async.DebtRequests.v14_5_0_1
 
 Нажмите "OK"
 

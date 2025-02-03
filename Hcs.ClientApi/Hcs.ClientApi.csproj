@@ -9,14 +9,19 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Hcs</RootNamespace>
     <AssemblyName>Hcs.ClientApi</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>12.0</LangVersion>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,16 +47,12 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>EsoStrongNameKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -71,39 +72,91 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientApi\Config\HcsUtil.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисАдресныйОбъект.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисДоговор.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисДоговорыИПриборы.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисЗдание.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисЗданиеПомещение.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисКонтрагент.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисЛицевойСчет.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисОрганизация.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисПоказания.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисПомещение.cs" />
+    <Compile Include="ClientApi\DataTypes\ГисПриборУчета.cs" />
+    <Compile Include="ClientApi\DeviceMeteringApi\HcsDeviceMeteringApi.cs" />
+    <Compile Include="ClientApi\DeviceMeteringApi\HcsDeviceMeteringMethod.cs" />
+    <Compile Include="ClientApi\DeviceMeteringApi\HcsDeviceMeteringUtil.cs" />
+    <Compile Include="ClientApi\DeviceMeteringApi\HcsMethodImportMeteringDevicesValues.cs" />
+    <Compile Include="ClientApi\FileStoreServiceApi\HcsFileStoreServiceApi.cs" />
+    <Compile Include="ClientApi\FileStoreServiceApi\RFC2047.cs" />
+    <Compile Include="ClientApi\HcsActionLogger.cs" />
+    <Compile Include="ClientApi\HcsFile.cs" />
+    <Compile Include="ClientApi\HcsFileStoreContext.cs" />
+    <Compile Include="ClientApi\HcsNoResultsRemoteException.cs" />
+    <Compile Include="ClientApi\HcsParallel.cs" />
+    <Compile Include="ClientApi\HcsPartialStream.cs" />
+    <Compile Include="ClientApi\HcsRestartTimeoutException.cs" />
+    <Compile Include="ClientApi\HcsUtil.cs" />
+    <Compile Include="ClientApi\DebtRequestsApi\HcsDebtRequestsApi.cs" />
+    <Compile Include="ClientApi\DebtRequestsApi\HcsDebtRequestsMethod.cs" />
     <Compile Include="ClientApi\HcsConsoleLogger.cs" />
-    <Compile Include="ClientApi\HcsDebtSubrequestExporter.cs" />
-    <Compile Include="ClientApi\HcsDebtResponse.cs" />
-    <Compile Include="ClientApi\HcsDebtResponseImporter.cs" />
+    <Compile Include="ClientApi\DebtRequestsApi\HcsDebtSubrequestExporter.cs" />
+    <Compile Include="ClientApi\DebtRequestsApi\HcsDebtResponse.cs" />
+    <Compile Include="ClientApi\DebtRequestsApi\HcsDebtResponseImporter.cs" />
     <Compile Include="ClientApi\HcsFileWriterMessageCapture.cs" />
     <Compile Include="ClientApi\HcsClient.cs" />
-    <Compile Include="ClientApi\HcsDebtSubrequest.cs" />
+    <Compile Include="ClientApi\DebtRequestsApi\HcsDebtSubrequest.cs" />
     <Compile Include="ClientApi\HcsException.cs" />
-    <Compile Include="ClientApi\HcsHouseExporter.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsContractRegistryDownloader.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsHouseManagementNsi.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodExportAccountData.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodExportHouse.cs" />
     <Compile Include="ClientApi\HcsMemoryMessageCapture.cs" />
     <Compile Include="ClientApi\HcsRemoteException.cs" />
-    <Compile Include="ClientApi\HcsWorkerBase.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodExportMeteringDeviceData.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodExportSupplyResourceContractObjectAddress.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodImportAccountData.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodImportMeteringDeviceData.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodImportSupplyResourceContractData.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodImportSupplyResourceContractObjectAddress.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodImportSupplyResourceContractProject.cs" />
+    <Compile Include="ClientApi\OrgRegistryCommonApi\HcsMethodExportOrgRegistry.cs" />
+    <Compile Include="ClientApi\OrgRegistryCommonApi\HcsOrgRegistryCommonApi.cs" />
+    <Compile Include="ClientApi\OrgRegistryCommonApi\HcsOrgRegistryCommonMethod.cs" />
+    <Compile Include="ClientApi\RemoteCaller\HcsPagedResultState.cs" />
+    <Compile Include="ClientApi\RemoteCaller\HcsRemoteCallMethod.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsMethodExportSupplyResourceContractData.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsHouseManagementApi.cs" />
+    <Compile Include="ClientApi\HouseManagementApi\HcsHouseManagementMethod.cs" />
     <Compile Include="ClientApi\IHcsLogger.cs" />
     <Compile Include="ClientApi\IHcsMessageCapture.cs" />
-    <Compile Include="ClientApi\Providers\HcsServiceProviderBase.cs" />
-    <Compile Include="ClientApi\Config\HcsClientConfig.cs" />
-    <Compile Include="ClientApi\Config\HcsConstants.cs" />
-    <Compile Include="ClientApi\Config\GostSigningEndpointBehavior.cs" />
-    <Compile Include="ClientApi\Config\HcsCertificateHelper.cs" />
-    <Compile Include="ClientApi\Config\HcsRequestHelper.cs" />
-    <Compile Include="ClientApi\Interfaces\IHcsAck.cs" />
-    <Compile Include="ClientApi\Interfaces\IHcsFault.cs" />
-    <Compile Include="ClientApi\Interfaces\IHcsGetStateResult.cs" />
-    <Compile Include="ClientApi\Interfaces\IHcsHeaderType.cs" />
-    <Compile Include="ClientApi\Interfaces\IHcsProvider.cs" />
-    <Compile Include="ClientApi\Config\GostSigningMessageInspector.cs" />
-    <Compile Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Reference.cs">
+    <Compile Include="ClientApi\HcsClientConfig.cs" />
+    <Compile Include="ClientApi\HcsConstants.cs" />
+    <Compile Include="ClientApi\RemoteCaller\GostSigningEndpointBehavior.cs" />
+    <Compile Include="ClientApi\HcsCertificateHelper.cs" />
+    <Compile Include="ClientApi\RemoteCaller\HcsRequestHelper.cs" />
+    <Compile Include="ClientApi\RemoteCaller\IHcsAck.cs" />
+    <Compile Include="ClientApi\RemoteCaller\IHcsFault.cs" />
+    <Compile Include="ClientApi\RemoteCaller\IHcsGetStateResult.cs" />
+    <Compile Include="ClientApi\RemoteCaller\IHcsHeaderType.cs" />
+    <Compile Include="ClientApi\RemoteCaller\GostSigningMessageInspector.cs" />
+    <Compile Include="ClientApi\HcsX509Tools.cs" />
+    <Compile Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Reference.cs">
+    <Compile Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -436,252 +489,354 @@
     <Compile Include="Microsoft\Xades\XadesSignedXml.cs" />
     <Compile Include="Microsoft\Xades\XMLTimeStamp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ClientApi\Providers\DebtRequestsProvider.cs" />
-    <Compile Include="ClientApi\Providers\HouseManagmentProvider.cs" />
-    <Compile Include="ClientApi\Config\HcsServicePointConfig.cs" />
+    <Compile Include="ClientApi\RemoteCaller\HcsServicePointConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-base.xsd">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\hcs-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-debt-requests-service-async.wsdl" />
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-debt-requests-types.xsd">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\hcs-debt-requests-service-async.wsdl" />
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\hcs-debt-requests-types.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\hcs-nsi-base.xsd">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\hcs-nsi-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.AckRequest.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.AckRequest.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.exportDebtRequestsResponse.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.exportDebtRequestsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.exportDebtSubrequestsResponse.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.exportDebtSubrequestsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.getStateResponse.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.getStateResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.getStateResult.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.getStateResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.importDebtRequestsResponse.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.importDebtRequestsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.importResponsesResponse.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.importResponsesResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Hcs.Service.Async.DebtRequests.v13_1_10_1.ResultHeader.datasource">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Hcs.Service.Async.DebtRequests.v14_5_0_1.ResultHeader.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\xmldsig-core-schema.xsd">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\xmldsig-core-schema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-account-base.xsd">
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\hcs-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-base.xsd">
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\hcs-device-metering-service-async.wsdl" />
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\hcs-device-metering-types.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-bills-base.xsd">
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\hcs-metering-device-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-house-management-service-async.wsdl" />
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-house-management-types.xsd">
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\hcs-nsi-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-individual-registry-base.xsd">
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Hcs.Service.Async.DeviceMetering.v14_5_0_1.AckRequest.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Hcs.Service.Async.DeviceMetering.v14_5_0_1.exportMeteringDeviceHistoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Hcs.Service.Async.DeviceMetering.v14_5_0_1.getStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Hcs.Service.Async.DeviceMetering.v14_5_0_1.getStateResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Hcs.Service.Async.DeviceMetering.v14_5_0_1.importMeteringDeviceValuesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Hcs.Service.Async.DeviceMetering.v14_5_0_1.ResultHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\xmldsig-core-schema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-metering-device-base.xsd">
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-account-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-nsi-base.xsd">
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-organizations-base.xsd">
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-bills-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-organizations-registry-base.xsd">
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-house-management-service-async.wsdl" />
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-house-management-types.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\hcs-premises-base.xsd">
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-individual-registry-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.AckRequest.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.demolishHouseResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportAccountDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportAccountIndividualServicesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefApartmentHouseResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefBasicHouseResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefLivingHouseResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefSocialHireContractResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportBriefSupplyResourceContractResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportCAChDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportHouseDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportMeteringDeviceDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportOwnerDecisionResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportOwnerRefusalResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportRolloverStatusCAChResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportStatusCAChDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportStatusPublicPropertyContractResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportSupplyResourceContractDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportSupplyResourceContractObjectAddressDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportVotingMessageResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.exportVotingProtocolResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.getStateResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.getStateResult.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importAccountDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importAccountIndividualServicesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importCharterDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importContractDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importExternalVotingProtocolResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importHouseESPDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importHouseOMSDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importHouseUODataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importMeteringDeviceDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importNotificationDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importOwnerDecisionResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importOwnerRefusalResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importPublicPropertyContractResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importSupplyResourceContractDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importSupplyResourceContractObjectAddressDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importSupplyResourceContractProjectDataResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importVotingMessageResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.importVotingProtocolResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Hcs.Service.Async.HouseManagement.v13_1_10_1.ResultHeader.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\xmldsig-core-schema.xsd">
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-metering-device-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Doc\20220506_Регистрация ИС в-ГИС-ЖКХ.docx" />
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-nsi-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-organizations-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-organizations-registry-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\hcs-premises-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.AckRequest.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.demolishHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportAccountDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportAccountIndividualServicesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportBriefApartmentHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportBriefBasicHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportBriefLivingHouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportBriefSocialHireContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportBriefSupplyResourceContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportCAChDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportHouseDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportMeteringDeviceDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportOwnerDecisionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportOwnerRefusalResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportRolloverStatusCAChResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportStatusCAChDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportStatusPublicPropertyContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportSupplyResourceContractDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportSupplyResourceContractObjectAddressDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportVotingMessageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.exportVotingProtocolResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.getStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.getStateResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importAccountDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importAccountIndividualServicesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importCharterDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importContractDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importExternalVotingProtocolResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importHouseESPDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importHouseOMSDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importHouseUODataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importMeteringDeviceDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importNotificationDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importOwnerDecisionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importOwnerRefusalResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importPublicPropertyContractResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importSupplyResourceContractDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importSupplyResourceContractObjectAddressDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importSupplyResourceContractProjectDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importVotingMessageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.importVotingProtocolResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Hcs.Service.Async.HouseManagement.v14_5_0_1.ResultHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\hcs-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\hcs-nsi-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\hcs-organizations-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\hcs-organizations-registry-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\hcs-organizations-registry-common-service-async.wsdl" />
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\hcs-organizations-registry-common-types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\hcs-premises-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.AckRequest.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.exportDataProviderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.exportDelegatedAccessResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.exportObjectsDelegatedAccessResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.exportOrgRegistryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.exportTerritoryDelegatedAccessResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.getStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.getStateResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Hcs.Service.Async.OrgRegistryCommon.v14_5_0_1.ResultHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Doc\20220406_Заявка_на_СИТ_ГИС_ЖКХ_собствення_ИС.docx" />
+    <None Include="Doc\20220415_Ответ_ГИСЖКХ_ТестовыйСтенд.pdf" />
+    <None Include="Doc\20220421_Ответ_ГИСЖКХ_о_OrgPPAGUID.pdf" />
+    <None Include="Doc\20220427_Ответ_ГИСЖКХ_об_ошибке_СНИЛС.pdf" />
+    <None Include="Doc\20220428_Ответ_ГИСЖКХ_о_дома_нет_в_перечне.pdf" />
+    <None Include="Doc\20220504_Ответ_ГИСЖКХ_об_ошибке_доступа.pdf" />
+    <None Include="Doc\20220505_Запрос_о_задолженности.docx" />
+    <None Include="Doc\20220506_Регистрация ИС ЭКК-ГИС-ЖКХ.docx" />
     <None Include="Doc\20220506_УспешныйОтветНаЗапрос.7z" />
+    <None Include="Doc\20220516_Уведомление об окончании тестовых испытаний.docx" />
+    <None Include="EsoStrongNameKey.snk" />
     <None Include="GostCryptography\LICENSE" />
     <None Include="GostCryptography\README.md" />
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\debt-requests\hcs-debt-requests-service-async.wsdl" />
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\debt-requests\hcs-debt-requests-types.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\debt-requests\hcs-debt-requests-service-async.wsdl" />
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\debt-requests\hcs-debt-requests-types.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\house-management\hcs-house-management-service-async.wsdl" />
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\house-management\hcs-house-management-types.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\device-metering\hcs-device-metering-service-async.wsdl" />
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\device-metering\hcs-device-metering-types.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-account-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\house-management\hcs-house-management-service-async.wsdl" />
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\house-management\hcs-house-management-types.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-account-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-bills-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-individual-registry-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-bills-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-metering-device-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-individual-registry-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-nsi-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-metering-device-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-organizations-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-nsi-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-organizations-registry-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-organizations-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-payments-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-organizations-registry-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\hcs-premises-base.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-payments-base.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="HcsWsdlSources\hsc-wsdl-v.13.1.10.1\lib\xmldsig-core-schema.xsd">
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\hcs-premises-base.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\lib\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\organizations-registry-common\hcs-organizations-registry-common-service-async.wsdl" />
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\organizations-registry-common\hcs-organizations-registry-common-types.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\organizations-registry\hcs-organizations-registry-service-async.wsdl" />
+    <None Include="HcsWsdlSources\hcs-wsdl-v.14.5.0.1\organizations-registry\hcs-organizations-registry-types.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Microsoft\Xades\XAdES.xsd">
@@ -690,42 +845,60 @@
     <None Include="Microsoft\Xades\xmldsig-core-schema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\" />
-    <WCFMetadataStorage Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\" />
+    <WCFMetadataStorage Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\" />
+    <WCFMetadataStorage Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\" />
+    <WCFMetadataStorage Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\" />
+    <WCFMetadataStorage Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\Service.Async.HouseManagement.v13_1_10_1\Reference.svcmap">
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\configuration91.svcinfo" />
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\configuration.svcinfo" />
+    <None Include="Connected Services\Service.Async.DebtRequests.v14_5_0_1\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\Reference.svcmap">
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\configuration91.svcinfo" />
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\configuration.svcinfo" />
+    <None Include="Connected Services\Service.Async.HouseManagement.v14_5_0_1\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\configuration.svcinfo" />
-    <None Include="Connected Services\Service.Async.DebtRequests.v13_1_10_1\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\configuration91.svcinfo" />
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\configuration.svcinfo" />
+    <None Include="Connected Services\Service.Async.OrgRegistryCommon.v14_5_0_1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\configuration91.svcinfo" />
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\configuration.svcinfo" />
+    <None Include="Connected Services\Service.Async.DeviceMetering.v14_5_0_1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Doc\20220421_SIT01_OrgPPAGUID.png" />
+    <Content Include="Doc\20220428_Сформировать_заявку_на_изменение_ИС.png" />
+    <Content Include="Doc\20220720_Service_Fault_Example.txt" />
+    <Content Include="Doc\20220720_Service_Fault_Example_2.txt" />
     <Content Include="HcsWsdlSources\how-to-generate-cs-from-wsdl.txt" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GostCryptography\Properties\Resources.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography">
+      <Version>2.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,7 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 
-using Hcs.ClientApi.Config;
+using Hcs.ClientApi.RemoteCaller;
+using Hcs.ClientApi.DebtRequestsApi;
+using Hcs.ClientApi.HouseManagementApi;
+using Hcs.ClientApi.OrgRegistryCommonApi;
+using Hcs.ClientApi.FileStoreServiceApi;
+using GostCryptography.Gost_R3411;
+using Hcs.ClientApi.DeviceMeteringApi;
 
 namespace Hcs.ClientApi
 {
@@ -26,110 +32,20 @@ namespace Hcs.ClientApi
 
         public void SetSigningCertificate(X509Certificate2 cert, string pin = null)
         {
-            if (cert == null) throw new ArgumentException("Null certificate");
+            if (cert == null) throw new ArgumentNullException("Не указан сертификат для подписания данных");
             if (pin == null) pin = HcsConstants.DefaultCertificatePin;
 
+            Certificate = cert;
             CertificateThumbprint = cert.Thumbprint;
             CertificatePassword = pin;
             CryptoProviderType = cert.GetProviderType();
         }
 
-        public async Task<HcsDebtSubrequest> ExportDSRByRequestNumber(string requestNumber)
-        {
-            var worker = new HcsDebtSubrequestExporter(this);
-            return await worker.ExportDSRByRequestNumber(requestNumber);
-        }
-
-        /// <summary>
-        /// Получение списка запросов о наличии задолженности направленных в данный период.
-        /// </summary>
-        public async Task<int> ExportDSRsByPeriodOfSending(
-            DateTime startDate, 
-            DateTime endDate, 
-            Guid? firstSubrequestGuid,
-            Action<HcsDebtSubrequest> resultHandler,
-            CancellationToken token = default)
-        {
-            var worker = new HcsDebtSubrequestExporter(this);
-            return await worker.ExportDSRsByPeriodOfSending(
-                startDate, endDate, firstSubrequestGuid, resultHandler, token);
-        }
-
-        /// <summary>
-        /// Отправка пакета ответов на запросы о наличии задолженности.
-        /// </summary>
-        public async Task<int> ImportDSRsResponsesAsOneBatch(
-            HcsDebtResponse[] responses,
-            Action<HcsDebtResponse, HcsDebtResponseResult> resultHandler,
-            CancellationToken token = default)
-        {
-            var worker = new HcsDebtResponseImporter(this);
-            var results = await worker.ImportDSRResponses(responses, token);
-
-            // в пакете результатов надо найти результат по каждому ответу
-            foreach (var response in responses) {
-                var result = results.FirstOrDefault(
-                    x => x.SubrequestGuid == response.SubrequestGuid && 
-                         x.TransportGuid == response.TransportGuid);
-
-                if (result == null) {
-                    result = new HcsDebtResponseResult();
-                    result.TransportGuid = response.TransportGuid;
-                    result.SubrequestGuid = response.SubrequestGuid;
-                    result.Error = new HcsException(
-                        $"В пакете результатов приема ответов нет" +
-                        $" результата для подзапроса {response.SubrequestGuid}");
-                }
-
-                // выполняем обработчик пользователя
-                resultHandler(response, result);
-            }
-
-            return responses.Length;
-        }
-
-        /// <summary>
-        /// Отправка ответов на запросы о наличии задолженности для списков любой длины.
-        /// </summary>
-        public async Task<int> ImportDSRsResponses(
-            HcsDebtResponse[] responses, 
-            Action<HcsDebtResponse, HcsDebtResponseResult> resultHandler, 
-            CancellationToken token = default)
-        {
-            // разбиваем массив ответов на части ограниченной длины
-            int chunkSize = 20;
-            int i = 0;
-            HcsDebtResponse[][] chunks = 
-                responses.GroupBy(s => i++ / chunkSize).Select(g => g.ToArray()).ToArray();
-
-            int n = 0;
-            foreach (var chunk in chunks) {
-                n += await ImportDSRsResponsesAsOneBatch(chunk, resultHandler, token);
-            }
-
-            return n;
-        }
-
-        /// <summary>
-        /// Отправка ответа на один запрос о наличии задолженности.
-        /// </summary>
-        public async Task<HcsDebtResponseResult> ImportDSRResponse(
-            HcsDebtResponse response, CancellationToken token = default)
-        {
-            HcsDebtResponse[] array = { response };
-            HcsDebtResponseResult result = null;
-            await ImportDSRsResponses(array, (x, y) => result = y, token);
-            return result;
-        }
-
-        /// <summary>
-        /// Пример получения данных об одном здании по его идентификатору в ФИАС.
-        /// </summary>
-        public async Task<string> ExportHouseByFiasGuid(Guid fiasHouseGuid)
-        {
-            var worker = new HcsHouseExporter(this);
-            return await worker.ExportHouseByFiasGuid(fiasHouseGuid);
-        }
+        public HcsDebtRequestsApi DebtRequests => new HcsDebtRequestsApi(this);
+        public HcsHouseManagementApi HouseManagement => new HcsHouseManagementApi(this);
+        public HcsOrgRegistryCommonApi OrgRegistryCommon => new HcsOrgRegistryCommonApi(this);
+        public HcsFileStoreServiceApi FileStoreService => new HcsFileStoreServiceApi(this);
+        public HcsDeviceMeteringApi DeviceMeteringService => new HcsDeviceMeteringApi(this);
 
         public X509Certificate2 FindCertificate(Func<X509Certificate2, bool> predicate)
         {
@@ -139,6 +55,22 @@ namespace Hcs.ClientApi
         public X509Certificate2 ShowCertificateUI()
         {
             return HcsCertificateHelper.ShowCertificateUI();
+        }
+
+        /// <summary>
+        /// Производит для потока хэш по алгоритму "ГОСТ Р 34.11-94" в строке binhex. 
+        /// </summary>
+        public string ComputeGost94Hash(System.IO.Stream stream)
+        {
+            // API HouseManagement указывает, что файлы приложенные к договору должны размещаться
+            // с AttachmentHASH по стандарту ГОСТ. Оказывается, ГИСЖКХ требует применения устаревшего
+            // алгоритма ГОСТ Р 34.11-94 (соответствует `rhash --gost94-cryptopro file` в linux)
+            using var algorithm = new Gost_R3411_94_HashAlgorithm(GostCryptoProviderType);
+            var savedPosition = stream.Position;
+            stream.Position = 0;
+            var hashValue = HcsUtil.ConvertToHexString(algorithm.ComputeHash(stream));
+            stream.Position = savedPosition;    
+            return hashValue;
         }
     }
 }
