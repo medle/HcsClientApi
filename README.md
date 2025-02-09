@@ -1,5 +1,7 @@
 ﻿
-## HcsClientApi: пример реализации на С# клиента для API ГИС ЖКХ
+# HcsClientApi: пример реализации на С# клиента для API ГИС ЖКХ
+
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
 Демонстрационная программа размещена в проекте Hcs.ClientDemo.
 Публикую в надежде помочь таким-же страждущим как я оставленным
